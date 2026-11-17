@@ -1,0 +1,439 @@
+
+/* ========================================
+   1. VARIABLES ET BASE
+======================================== */
+
+:host {
+  display: block;
+  min-height: 100vh;
+
+  background: #100e17;
+  color: #eeeaf5;
+  font-family: "Trebuchet MS", sans-serif;
+
+  --fond: #100e17;
+  --carte: #1c1925;
+  --rose: #d9a5c8;
+  --lilas: #bba6df;
+  --texte: #eeeaf5;
+  --texte-doux: #a9a0b8;
+  --dore: #e8c98b;
+  --bordure: #332c40;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* ========================================
+   2. CATALOGUE
+======================================== */
+
+.catalogue {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+
+/* ========================================
+   3. EN-TÊTE
+======================================== */
+
+.entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  padding: 30px 10px 35px;
+
+  border-bottom: 1px solid var(--bordure);
+}
+
+.titre-principal {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.titre-principal h1 {
+  margin: 0;
+
+  color: var(--rose);
+  font-family: Georgia, serif;
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  font-weight: normal;
+  letter-spacing: -1px;
+}
+
+.titre-principal h1 span {
+  display: none;
+}
+
+.titre-principal p {
+  margin: 12px 0 0;
+
+  color: var(--texte-doux);
+  font-family: Georgia, serif;
+  font-size: 1.05rem;
+  font-style: italic;
+}
+
+.icone-deco,
+.etoile-deco {
+  color: var(--lilas);
+  font-size: 1.8rem;
+}
+
+.icone-deco {
+  transform: rotate(-12deg);
+}
+
+.phrase-deco {
+  color: var(--rose);
+  font-family: Georgia, serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: center;
+
+  opacity: 0.8;
+}
+
+
+/* ========================================
+   4. SECTIONS
+======================================== */
+
+.section-catalogue {
+  margin: 45px 0 55px;
+}
+
+.titre-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  margin-bottom: 28px;
+}
+
+.icone-section {
+  color: var(--rose);
+  font-size: 1.3rem;
+}
+
+.texte-section {
+  position: relative;
+
+  padding-bottom: 8px;
+
+  color: var(--texte);
+  font-family: Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: normal;
+}
+
+.texte-section::after {
+  content: "";
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 45px;
+  height: 2px;
+
+  background: var(--rose);
+}
+
+.compteur {
+  padding: 4px 10px;
+
+  border: 1px solid var(--bordure);
+  border-radius: 6px;
+
+  background: #211c2b;
+  color: var(--texte-doux);
+  font-size: 0.8rem;
+}
+
+
+/* ========================================
+   5. GRILLE
+======================================== */
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 24px;
+}
+
+
+/* ========================================
+   6. CARTES
+======================================== */
+
+.carte {
+  overflow: hidden;
+
+  border: 1px solid var(--bordure);
+  border-radius: 10px;
+
+  background: var(--carte);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  cursor: pointer;
+}
+
+.carte:hover {
+  transform: translateY(-6px);
+
+  border-color: #786184;
+  box-shadow: 0 12px 30px #00000040;
+}
+
+
+/* ========================================
+   7. AFFICHES
+======================================== */
+
+.affiche {
+  position: relative;
+  overflow: hidden;
+}
+
+.affiche img {
+  display: block;
+
+  width: 100%;
+  aspect-ratio: 2 / 3;
+
+  object-fit: cover;
+  background: #25202f;
+
+  transition: transform 0.4s ease;
+}
+
+.carte:hover .affiche img {
+  transform: scale(1.04);
+}
+
+.coeur {
+  display: none;
+}
+
+.commentaires-titre {
+  font-size: 14pt;
+}
+
+.commentaires {
+  font-size: 10pt;
+  background-color: #332c40;
+  margin-top: -20px;
+}
+
+.lignes, .entete-coms{
+  display: flex;
+}
+
+.bouton-coms
+{
+  width: 20px;
+  height: 10px;
+}
+
+
+/* ========================================
+   8. INFORMATIONS DES CARTES
+======================================== */
+
+.infos {
+  padding: 14px;
+}
+
+.infos h3 {
+  margin: 0 0 10px;
+
+  color: var(--texte);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.infos p {
+  margin: 6px 0;
+
+  color: var(--texte-doux);
+  font-size: 0.8rem;
+}
+
+.infos .note {
+  color: var(--dore);
+  font-weight: bold;
+}
+
+
+/* ========================================
+   9. FICHE DÉTAILLÉE
+======================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+
+  background: #09070ee0;
+  backdrop-filter: blur(10px);
+}
+
+.modal-fiche {
+  position: relative;
+
+  display: flex;
+  gap: 35px;
+
+  width: 100%;
+  max-width: 900px;
+  max-height: 85vh;
+
+  overflow-y: auto;
+
+  padding: 35px;
+
+  border: 1px solid #44364f;
+  border-radius: 14px;
+
+  background: #1a1622;
+
+  box-shadow: 0 20px 60px #00000060;
+}
+
+.poster-fiche {
+  width: 250px;
+  height: fit-content;
+
+  border-radius: 8px;
+
+  object-fit: cover;
+  box-shadow: 0 10px 30px #00000050;
+}
+
+.contenu-fiche {
+  flex: 1;
+}
+
+.contenu-fiche h2 {
+  margin-top: 0;
+
+  color: var(--rose);
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  font-weight: normal;
+}
+
+.contenu-fiche p {
+  color: var(--texte-doux);
+  line-height: 1.8;
+}
+
+.contenu-fiche .note {
+  color: var(--dore);
+}
+
+
+/* ========================================
+   10. BOUTON DE FERMETURE
+======================================== */
+
+.bouton-fermer {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+
+  border: none;
+  background: transparent;
+
+  color: var(--texte-doux);
+  font-size: 1.8rem;
+
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.bouton-fermer:hover {
+  color: var(--rose);
+}
+
+
+/* ========================================
+   11. GENRES
+======================================== */
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-top: 20px;
+}
+
+.genres span {
+  padding: 6px 12px;
+
+  border: 1px solid #44364f;
+  border-radius: 5px;
+
+  background: #25202f;
+  color: var(--lilas);
+
+  font-size: 0.8rem;
+}
+
+
+/* ========================================
+   12. RESPONSIVE
+======================================== */
+
+@media (max-width: 650px) {
+  .catalogue {
+    padding: 20px;
+  }
+
+  .entete {
+    align-items: flex-start;
+  }
+
+  .icone-deco,
+  .etoile-deco,
+  .phrase-deco {
+    display: none;
+  }
+
+  .grille {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .modal-fiche {
+    flex-direction: column;
+    align-items: center;
+
+    padding: 25px;
+  }
+
+  .poster-fiche {
+    width: 180px;
+  }
+}

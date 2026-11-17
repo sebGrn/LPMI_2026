@@ -1,0 +1,167 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
+<!-- * * * * * * * to get started with your project! * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<main class="catalogue">
+  <header class="entete">
+    <div class="titre-principal">
+      <span class="icone-deco">♡</span>
+
+      <div>
+        <h1>Mon Catalogue <span>♡</span></h1>
+        <p>Des films et des séries, des émotions à l'infini ♡</p>
+      </div>
+
+      <span class="etoile-deco">✧</span>
+    </div>
+
+    <div class="phrase-deco">
+      Good Movies
+      <br />
+      Better Days ♡
+    </div>
+  </header>
+
+  @if (errorMessage) {
+    <div class="message-erreur" role="alert">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <section class="section-catalogue">
+    <h2 class="titre-section">
+      <span class="icone-section">▦</span>
+      <span class="texte-section">Films</span>
+      <span class="compteur">{{ films.length }}</span>
+    </h2>
+
+    @if (loadingFilms) {
+      <p>Chargement des films...</p>
+    }
+
+    <div class="grille">
+      @for (film of films; track film.id) {
+        <article class="carte" (click)="afficherFilm(film)">
+          <div class="affiche">
+            <img
+              [src]="posterUrl(film.poster_path)"
+              [alt]="'Affiche de ' + film.title"
+            />
+
+            <span class="coeur">♡</span>
+          </div>
+
+          <div class="infos">
+            <h3>{{ film.title }}</h3>
+            <p>{{ film.release_date | date:'dd/MM/yyyy' }}</p>
+            <p class="note">★ {{ film.vote_average | number:'1.1-1' }}/10</p>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="section-catalogue">
+    <h2 class="titre-section">
+      <span class="icone-section">♡</span>
+      <span class="texte-section">Séries</span>
+      <span class="compteur">{{ series.length }}</span>
+    </h2>
+
+    @if (loadingSeries) {
+      <p>Chargement des séries...</p>
+    }
+
+    <div class="grille">
+      @for (serie of series; track serie.id) {
+        <article class="carte" (click)="afficherSerie(serie)">
+          <div class="affiche">
+            <img
+              [src]="posterUrl(serie.poster_path)"
+              [alt]="'Affiche de ' + serie.name"
+            />
+
+            <span class="coeur">♡</span>
+          </div>
+
+          <div class="infos">
+            <h3>{{ serie.name }}</h3>
+            <p>{{ serie.first_air_date | date:'dd/MM/yyyy' }}</p>
+            <p class="note">★ {{ serie.vote_average | number:'1.1-1' }}/10</p>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  @if (selectedItem) {
+    <div class="modal-overlay" (click)="fermerFiche()">
+      <div class="modal-fiche" (click)="$event.stopPropagation()">
+        <button class="bouton-fermer" (click)="fermerFiche()">×</button>
+
+        <img
+          class="poster-fiche"
+          [src]="posterUrl(selectedItem.poster_path)"
+          [alt]="selectedType === 'film' ? selectedItem.title : selectedItem.name"
+        />
+
+        <div class="contenu-fiche">
+          <h2>
+            {{ selectedType === 'film' ? selectedItem.title : selectedItem.name }}
+          </h2>
+
+          <p>
+            {{ (selectedType === 'film' ? selectedItem.release_date : selectedItem.first_air_date) | date:'dd/MM/yyyy' }}
+          </p>
+
+          <p class="note">
+            ★ {{ selectedItem.vote_average | number:'1.1-1' }}/10
+          </p>
+
+          <p>
+            {{ selectedItem.overview || 'Aucun résumé disponible.' }}
+          </p>
+
+          <div class="genres">
+            @for (genre of selectedItem.genres; track genre.id) {
+              <span>{{ genre.name }}</span>
+            }
+          </div>
+
+          <div class="entete-coms">
+            <p class="commentaires-titre">Commentaires :</p>
+            <button type="button" class="bouton-coms">Écrire un commentaire</button>
+          </div>
+
+          <div class="commentaires">
+            <div class="lignes">
+              <p><strong>Eric :</strong> le film était super&nbsp;</p>
+              <p class="note">★ 9/10</p>
+            </div>
+            <div class="lignes">
+              <p><strong>Jean-Didier :</strong> j'ai jamais vu un film aussi nul&nbsp;</p>
+              <p class="note">★ 1/10</p>
+            </div>
+          </div>
+
+          <form (ngSubmit)="ajouterCommentaire()">
+            <input
+              type="text"
+              [(ngModel)]="commentaire"
+              name="commentaire"
+              placeholder="Écrivez un commentaire..."
+              style="width: 100%; max-width: 420px;"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+</main>
+
+<router-outlet />
