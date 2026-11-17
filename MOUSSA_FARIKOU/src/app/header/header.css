@@ -1,0 +1,6 @@
+mat-toolbar {
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  /* liens du menu lisibles sur la barre bleue */
+  --mat-toolbar-container-text-color: var(--mat-sys-on-primary);
+}

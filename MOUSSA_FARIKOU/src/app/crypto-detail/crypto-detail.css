@@ -1,0 +1,7 @@
+
+/* logo à sa taille (128 px) au lieu d'être étiré sur toute la carte */
+img[mat-card-image] {
+  display: block;
+  width: 128px;
+  margin: 16px auto;
+}

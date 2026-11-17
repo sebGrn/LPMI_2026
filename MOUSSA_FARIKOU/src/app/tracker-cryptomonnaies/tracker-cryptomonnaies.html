@@ -1,0 +1,24 @@
+<div class="container">
+  <div>
+    <h3>Cryptomonnaies</h3>
+    <hr>
+  </div>
+
+  <mat-grid-list cols="2" rowHeight="200px">
+    <mat-grid-tile *ngFor="let crypto of cryptos" [routerLink]="['/cryptodetail', crypto.id]">
+      <img height="150px" src="{{ baseURL + crypto.image }}" alt="{{ crypto.name }}">
+      <mat-grid-tile-footer>
+        <h1>{{ crypto.name | uppercase }}</h1>
+        <span class="flex-spacer"></span>
+        <span class="tile-price">
+          {{ crypto.price | currency:'EUR':'symbol':'1.2-6' }}
+          <span [class.up]="crypto.change24h >= 0" [class.down]="crypto.change24h < 0">
+            {{ crypto.change24h >= 0 ? '+' : '' }}{{ crypto.change24h | number:'1.2-2' }} %
+          </span>
+        </span>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <!--<app-crypto-detail [crypto]="selectedCrypto"></app-crypto-detail>-->
+</div>

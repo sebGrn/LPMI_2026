@@ -1,0 +1,29 @@
+<div class="container">
+  <div>
+    <h3>À propos</h3>
+    <hr>
+  </div>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Tracker Cryptomonnaies</mat-card-title>
+      <mat-card-subtitle>Application développée par MOUSSA</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Application Angular réalisée dans le cadre du cours « Technologies pour le web - Framework Angular »
+        (Licence Professionnelle LPMI, Université de Bourgogne).
+      </p>
+      <p>
+        Elle permet de consulter une liste de cryptomonnaies (Bitcoin, Ethereum, Solana, Cardano),
+        d'afficher le détail de chacune et de mettre une crypto en avant sur la page d'accueil.
+        Les données sont fournies par un serveur JSON (json-server).
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="backend">
+    <h2>Message du backend :</h2>
+    <p class="message">{{ donneeRecue }}</p>
+  </div>
+</div>

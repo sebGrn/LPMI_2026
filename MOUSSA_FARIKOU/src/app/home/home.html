@@ -1,0 +1,31 @@
+<div class="welcome">
+  <h1>Bienvenue sur Tracker Cryptomonnaies</h1>
+  <p>Application développée par <strong>MOUSSA</strong></p>
+  <p class="subtitle">Licence Professionnelle LPMI - Université de Bourgogne</p>
+</div>
+
+<div class="container">
+  <h3>Crypto mise en avant</h3>
+  <mat-card *ngIf="crypto">
+    <mat-card-header>
+      <mat-card-title>
+        <h3>{{ crypto.name | uppercase }}</h3>
+      </mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src="{{ baseURL + crypto.image }}" alt="{{ crypto.name }}">
+    <mat-card-content>
+      <p>{{ crypto.description }}</p>
+      <p class="price">
+        <strong>{{ crypto.price | currency:'EUR':'symbol':'1.2-6' }}</strong>
+        <span [class.up]="crypto.change24h >= 0" [class.down]="crypto.change24h < 0">
+          {{ crypto.change24h >= 0 ? '+' : '' }}{{ crypto.change24h | number:'1.2-2' }} % (24h)
+        </span>
+      </p>
+      <p class="source">{{ crypto.live ? 'Prix en direct (CoinGecko)' : 'Prix enregistré (API indisponible)' }}</p>
+    </mat-card-content>
+  </mat-card>
+  <!-- show this div if crypto is not valid -->
+  <div [hidden]="crypto">
+    <mat-spinner></mat-spinner> <h4>Loading ... Please wait</h4>
+  </div>
+</div>

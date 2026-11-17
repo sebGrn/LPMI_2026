@@ -1,0 +1,26 @@
+.welcome {
+  padding: 30px 20px;
+  text-align: center;
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+}
+
+.welcome h1 {
+  margin: 0 0 10px;
+}
+
+.welcome p {
+  margin: 4px 0;
+  font-size: 18px;
+}
+
+.welcome .subtitle {
+  font-size: 14px;
+}
+
+/* logo à sa taille (128 px) au lieu d'être étiré sur toute la carte */
+img[mat-card-image] {
+  display: block;
+  width: 128px;
+  margin: 16px auto;
+}
