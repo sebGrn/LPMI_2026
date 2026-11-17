@@ -1,0 +1,69 @@
+<section class="comments-section">
+  <h3>Espace Commentaires</h3>
+
+  <form (submit)="addComment($event)" class="comment-form">
+    <!-- Choix de l'avatar -->
+    <div class="avatar-selection-container">
+      <label>Choisissez votre photo de profil :</label>
+      <div class="avatars-picker">
+        <img 
+          *ngFor="let avatar of defaultAvatars" 
+          [src]="avatar" 
+          [class.active]="selectedAvatar === avatar"
+          (click)="selectAvatar(avatar)" 
+          alt="Avatar option"
+          class="avatar-option"
+        />
+
+        <!-- Option Upload -->
+        <label class="upload-btn" title="Téléverser votre propre image (max 2 Mo)">
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
+          <span *ngIf="!customAvatarPreview">+ Upload</span>
+          <img *ngIf="customAvatarPreview" [src]="customAvatarPreview" class="avatar-option active" alt="Mon avatar" />
+        </label>
+      </div>
+      <small class="size-hint">Format accepté : JPG/PNG/SVG. Taille max : 2 Mo.</small>
+      <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+    </div>
+
+    <div class="form-group">
+      <input 
+        type="text" 
+        [(ngModel)]="authorInput" 
+        name="author" 
+        placeholder="Votre nom ou pseudo..." 
+        required 
+      />
+    </div>
+
+    <div class="form-group">
+      <textarea 
+        [(ngModel)]="contentInput" 
+        name="content" 
+        placeholder="Écrivez votre commentaire ici..." 
+        rows="3" 
+        required>
+      </textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Publier le commentaire</button>
+  </form>
+
+  <!-- Liste des commentaires -->
+  <div class="comments-list" *ngIf="comments().length > 0; else noComments">
+    <div *ngFor="let comment of comments()" class="comment-card">
+      <img [src]="comment.avatar" class="comment-avatar" alt="Avatar de {{ comment.author }}" />
+      <div class="comment-body">
+        <div class="comment-header">
+          <span class="comment-author">{{ comment.author }}</span>
+          <span class="comment-date">{{ comment.date }}</span>
+        </div>
+        <p class="comment-content">{{ comment.content }}</p>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noComments>
+    <p class="no-comments">Aucun commentaire pour le moment. Soyez le premier à donner votre avis !</p>
+  </ng-template>
+</section>

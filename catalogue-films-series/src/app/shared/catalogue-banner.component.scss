@@ -1,0 +1,87 @@
+.catalogue-banner {
+  --banner-primary: #ff7581;
+  position: relative;
+  display: flex;
+  min-height: clamp(220px, 28vw, 320px);
+  align-items: center;
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(1.4rem, 5vw, 3.5rem);
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(115deg, #241b2b 0%, #352333 52%, #542b35 100%);
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 1.35rem;
+  box-shadow: 0 24px 70px rgb(0 0 0 / 30%);
+  animation: banner-enter 600ms ease-out both;
+}
+
+.banner-tone-1 { --banner-primary: #50d4c6; background: linear-gradient(115deg, #142827, #1d3942 55%, #213d60); }
+.banner-tone-2 { --banner-primary: #c18aff; background: linear-gradient(115deg, #251d39, #39254a 55%, #572942); }
+.banner-tone-3 { --banner-primary: #ffc45c; background: linear-gradient(115deg, #302417, #4a3020 55%, #5a3029); }
+.banner-copy { position: relative; z-index: 2; width: min(68%, 680px); }
+
+.banner-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--banner-primary);
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.banner-sparkle { font-size: 1.1rem; }
+.banner-copy h2 { margin: 0.75rem 0 0.4rem; font-size: clamp(1.8rem, 5vw, 3.6rem); line-height: 1.04; text-wrap: balance; text-shadow: 0 2px 24px rgb(0 0 0 / 25%); }
+.banner-copy > p { margin: 0; color: rgb(255 255 255 / 76%); font-size: clamp(0.9rem, 1.5vw, 1.05rem); }
+.banner-bottom { display: flex; align-items: center; gap: 1.2rem; margin-top: 1.5rem; }
+.banner-count { padding: 0.5rem 0.8rem; color: #fff; background: rgb(255 255 255 / 12%); border: 1px solid rgb(255 255 255 / 16%); border-radius: 99px; font-size: 0.8rem; backdrop-filter: blur(8px); }
+.banner-controls { display: flex; gap: 0.5rem; }
+
+.banner-controls button {
+  width: 2.25rem;
+  height: 2.25rem;
+  color: #fff;
+  background: rgb(255 255 255 / 12%);
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.banner-controls button:hover { color: #15151b; background: var(--banner-primary); transform: scale(1.06); }
+
+.banner-poster {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 8%;
+  width: auto;
+  height: 125%;
+  object-fit: contain;
+  opacity: 0.48;
+  filter: saturate(0.85);
+  transform: rotate(5deg) translateY(-5%);
+  mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+  transition: opacity 500ms ease, transform 700ms cubic-bezier(.2,.75,.3,1);
+}
+
+.catalogue-banner:hover .banner-poster { opacity: 0.62; transform: rotate(2deg) translateY(-7%) scale(1.04); }
+.banner-glow { position: absolute; z-index: 1; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 75% 45%, color-mix(in srgb, var(--banner-primary) 35%, transparent), transparent 52%), linear-gradient(90deg, transparent 30%, rgb(12 12 18 / 20%)); }
+
+@keyframes banner-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .catalogue-banner { min-height: 245px; padding: 1.25rem; }
+  .banner-copy { width: 85%; }
+  .banner-poster { right: -12%; height: 108%; opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catalogue-banner, .banner-poster, .banner-controls button { transition: none; animation: none; }
+}

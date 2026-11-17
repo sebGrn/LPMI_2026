@@ -1,0 +1,73 @@
+<main class="chatbot-page">
+  <section class="chatbot-shell">
+    <header class="chatbot-header">
+      <div>
+        <p class="eyebrow">Assistant</p>
+        <h1>ChatBot AI</h1>
+      </div>
+      <a class="back-link" routerLink="/catalogue">← Retour au catalogue</a>
+    </header>
+
+    <div class="chatbot-body">
+      <div class="quick-actions">
+        <button type="button" (click)="quickPrompt('Je veux un film drôle et léger')">Film drôle</button>
+        <button type="button" (click)="quickPrompt('Je cherche une série mystère avec beaucoup de suspens')">Série mystère</button>
+        <button type="button" (click)="quickPrompt('J’ai envie d’un film d’aventure avec du suspense')">Aventure</button>
+        <button type="button" (click)="quickPrompt('Je veux un film de science-fiction sorti après 2015 et bien noté')">Science-fiction récente</button>
+        <button type="button" (click)="quickPrompt('Propose-moi plusieurs genres différents et explique leurs différences')">Surprends-moi</button>
+      </div>
+
+      <p class="chatbot-hint">Tu peux préciser le genre, l’année, la note, le pays, le réalisateur, l’ambiance ou changer d’avis à tout moment.</p>
+
+      <div class="chat-window" aria-live="polite">
+        <article *ngFor="let message of messages()" class="message" [class.user]="message.role === 'user'" [class.bot]="message.role === 'bot'">
+          <p>{{ message.text }}</p>
+        </article>
+
+        <div *ngIf="isThinking()" class="message bot typing">
+          <p>Je réfléchis à ta recommandation…</p>
+        </div>
+      </div>
+
+      <div class="chatbot-results" *ngIf="recommendations().length">
+        <h2>Suggestions</h2>
+        <div class="recommendation-list">
+          <article class="recommendation-card" *ngFor="let item of recommendations()">
+            <img [src]="item.media.posterUrl" [alt]="item.media.title" loading="lazy" decoding="async" />
+            <div class="recommendation-body">
+              <div class="recommendation-header">
+                <h3>{{ item.media.title }}</h3>
+                <span>{{ item.media.type }}</span>
+              </div>
+              <p class="reason">{{ item.reason }}</p>
+              <div class="recommendation-meta">
+                <span>{{ item.media.genre }}</span>
+                <span>{{ item.media.releaseYear }}</span>
+              </div>
+              <a [routerLink]="['/catalogue', item.media.id]">Voir la fiche</a>
+            </div>
+          </article>
+        </div>
+        <div class="follow-up-actions" aria-label="Affiner les recommandations">
+          <button type="button" (click)="quickPrompt('Garde mes critères, mais propose quelque chose de plus récent')">Plus récent</button>
+          <button type="button" (click)="quickPrompt('Garde mes critères, mais change de genre')">Autre genre</button>
+          <button type="button" (click)="quickPrompt('Garde mes critères, mais propose une série')">Plutôt une série</button>
+          <button type="button" (click)="quickPrompt('Garde mes critères, mais propose un film')">Plutôt un film</button>
+        </div>
+      </div>
+
+      <form class="composer" (submit)="$event.preventDefault(); sendMessage()">
+        <input
+          type="text"
+          [ngModel]="draft()"
+          (ngModelChange)="draft.set($event)"
+          placeholder="Ex. : un thriller coréen après 2018, bien noté..."
+          aria-label="Message du chatbot"
+          name="draft" />
+        <button type="submit" [disabled]="isThinking() || isLoading()">
+          {{ isThinking() ? '...' : 'Envoyer' }}
+        </button>
+      </form>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,261 @@
+:host { display: block; min-height: 100vh; color: #f6f6f8; background: linear-gradient(180deg, #101116 0%, #151922 100%); }
+
+.chatbot-page {
+  width: min(100% - 2rem, 1200px);
+  margin: 0 auto;
+  padding: 6rem 0 3rem;
+}
+
+.chatbot-shell {
+  background: rgba(20, 22, 29, 0.9);
+  border: 1px solid #2d3240;
+  border-radius: 1.2rem;
+  box-shadow: 0 30px 80px rgb(0 0 0 / 25%);
+  overflow: hidden;
+}
+
+.chatbot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 1.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid #2d3240;
+}
+
+.eyebrow {
+  margin: 0 0 0.3rem;
+  color: #ff8792;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.chatbot-header h1 {
+  margin: 0;
+  font-size: clamp(1.7rem, 2.7vw, 2.5rem);
+}
+
+.back-link {
+  color: #ff8792;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.back-link:hover { text-decoration: underline; }
+
+.chatbot-body {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.quick-actions button {
+  padding: 0.7rem 0.9rem;
+  color: #f4f5f8;
+  background: #1d2330;
+  border: 1px solid #374054;
+  border-radius: 999px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.quick-actions button:hover,
+.follow-up-actions button:hover {
+  border-color: #ff8792;
+  background: #282d3a;
+}
+
+.chatbot-hint {
+  margin: -0.5rem 0 0;
+  color: #a8b0be;
+  font-size: 0.9rem;
+}
+
+.chat-window {
+  display: grid;
+  gap: 0.9rem;
+  min-height: 260px;
+  max-height: 440px;
+  overflow-y: auto;
+  padding: 1rem;
+  background: #111621;
+  border: 1px solid #2d3240;
+  border-radius: 1rem;
+}
+
+.message {
+  display: flex;
+}
+
+.message p {
+  max-width: 80%;
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border-radius: 1rem;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.message.bot p {
+  background: #1d2330;
+  border: 1px solid #2d3240;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message.user p {
+  background: linear-gradient(135deg, #f4a8b1, #ff8792);
+  color: #111;
+  font-weight: 600;
+}
+
+.message.typing p {
+  opacity: 0.8;
+}
+
+.chatbot-results {
+  padding: 1rem;
+  background: #191d27;
+  border: 1px solid #2d3240;
+  border-radius: 1rem;
+}
+
+.chatbot-results h2 {
+  margin: 0 0 1rem;
+  font-size: 1.3rem;
+}
+
+.follow-up-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.follow-up-actions button {
+  padding: 0.55rem 0.75rem;
+  color: #f4f5f8;
+  background: #1d2330;
+  border: 1px solid #374054;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.recommendation-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.recommendation-card {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.9rem;
+  background: #111621;
+  border: 1px solid #2d3240;
+  border-radius: 0.9rem;
+}
+
+.recommendation-card img {
+  width: 100%;
+  height: 165px;
+  object-fit: cover;
+  border-radius: 0.8rem;
+}
+
+.recommendation-body {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+}
+
+.recommendation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.recommendation-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.recommendation-header span,
+.recommendation-meta {
+  color: #a8b0be;
+  font-size: 0.8rem;
+}
+
+.reason {
+  margin: 0;
+  color: #dfe5ee;
+  line-height: 1.6;
+}
+
+.recommendation-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.recommendation-body a {
+  display: inline-flex;
+  width: fit-content;
+  padding: 0.5rem 0.7rem;
+  color: #fff;
+  background: #2a3040;
+  border-radius: 0.6rem;
+  text-decoration: none;
+}
+
+.composer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+}
+
+.composer input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  color: #f5f7fa;
+  background: #10141b;
+  border: 1px solid #3a4253;
+  border-radius: 0.8rem;
+  font: inherit;
+}
+
+.composer button {
+  padding: 0.85rem 1.1rem;
+  color: #111;
+  background: linear-gradient(135deg, #f4a8b1, #ff8792);
+  border: 0;
+  border-radius: 0.8rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.composer button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+@media (max-width: 520px) {
+  .chatbot-page { width: min(100% - 1rem, 1200px); }
+  .chatbot-header { flex-direction: column; align-items: flex-start; }
+  .composer { grid-template-columns: 1fr; }
+  .recommendation-card { grid-template-columns: 1fr; }
+}

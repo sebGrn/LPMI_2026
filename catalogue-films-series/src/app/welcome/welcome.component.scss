@@ -1,0 +1,160 @@
+.welcome-screen {
+  display: grid;
+  min-height: 100vh;
+  align-items: center;
+  padding: clamp(1.25rem, 5vw, 4rem);
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(ellipse at 76% 48%, rgb(130 35 54 / 19%), transparent 37%),
+    radial-gradient(ellipse at 25% 35%, #282b3b 0%, #14151b 45%, #090a0d 100%);
+}
+
+.welcome-layout {
+  display: grid;
+  width: min(100%, 1320px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 5rem);
+  margin: auto;
+}
+
+.welcome-content {
+  z-index: 1;
+  display: grid;
+  justify-items: start;
+  gap: clamp(1rem, 2.5vw, 1.6rem);
+}
+
+.welcome-eyebrow {
+  margin: 0;
+  color: #ff7b86;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.welcome-content h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 6vw, 5.4rem);
+  font-weight: 850;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.welcome-description {
+  max-width: 38rem;
+  margin: 0;
+  color: #b9bbc7;
+  font-size: clamp(1rem, 2.4vw, 1.2rem);
+  line-height: 1.6;
+}
+
+.btn-enter {
+  display: inline-flex;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, #ed263f, #bd102b);
+  box-shadow: 0 0.7rem 2rem rgb(237 38 63 / 25%);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.btn-enter:hover { box-shadow: 0 0.9rem 2.4rem rgb(237 38 63 / 38%); transform: translateY(-2px); }
+.btn-enter:focus-visible { outline: 3px solid #ff7581; outline-offset: 4px; }
+
+.poster-wall {
+  position: relative;
+  display: grid;
+  min-height: min(76vh, 680px);
+  place-items: center;
+  perspective: 1100px;
+  isolation: isolate;
+}
+
+.poster-wall-glow {
+  position: absolute;
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #ed263f;
+  filter: blur(100px);
+  opacity: 0.13;
+}
+
+.poster-stack {
+  position: relative;
+  width: min(100%, 590px);
+  height: min(70vh, 620px);
+  min-height: 480px;
+}
+
+.poster-tile {
+  position: absolute;
+  width: clamp(118px, 15vw, 174px);
+  aspect-ratio: 2 / 3;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 12px;
+  background: #20212a;
+  box-shadow: 0 24px 55px rgb(0 0 0 / 48%);
+  object-fit: cover;
+  animation: poster-float 7s ease-in-out infinite;
+  backface-visibility: hidden;
+}
+
+.poster-tile-0 { top: 10%; left: 15%; z-index: 1; transform: rotate(-13deg); animation-delay: -1.2s; }
+.poster-tile-1 { top: 8%; right: 13%; z-index: 2; transform: rotate(11deg); animation-delay: -3.4s; }
+.poster-tile-2 { top: 28%; left: 37%; z-index: 4; width: clamp(138px, 17vw, 198px); transform: rotate(-2deg); animation-delay: -2.1s; }
+.poster-tile-3 { bottom: 8%; left: 11%; z-index: 3; transform: rotate(9deg); animation-delay: -4.7s; }
+.poster-tile-4 { right: 12%; bottom: 10%; z-index: 2; transform: rotate(-10deg); animation-delay: -0.5s; }
+.poster-tile-5 { top: 36%; right: 0; z-index: 1; width: clamp(106px, 12vw, 142px); transform: rotate(15deg); animation-delay: -5.5s; }
+
+.poster-wall-orbit {
+  position: absolute;
+  z-index: -1;
+  width: 90%;
+  aspect-ratio: 1;
+  border: 1px solid rgb(255 255 255 / 7%);
+  border-radius: 50%;
+  transform: rotate(-24deg) scaleY(0.48);
+}
+
+.orbit-two { width: 108%; transform: rotate(38deg) scaleY(0.48); }
+
+@keyframes poster-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -10px; }
+}
+
+@media (max-width: 900px) {
+  .welcome-layout { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 1rem; }
+  .poster-stack { transform: scale(0.88); }
+}
+
+@media (max-width: 680px) {
+  .welcome-screen { min-height: 100svh; padding: 3rem 1.25rem 1.5rem; }
+  .welcome-layout { grid-template-columns: 1fr; gap: 0.5rem; }
+  .welcome-content { justify-items: center; text-align: center; }
+  .welcome-content h1 { font-size: clamp(2.6rem, 12vw, 4.4rem); }
+  .poster-wall { min-height: 340px; }
+  .poster-stack { width: min(100%, 460px); height: 340px; min-height: 340px; transform: scale(0.76); }
+  .poster-tile { width: clamp(112px, 29vw, 150px); }
+  .poster-tile-2 { width: clamp(130px, 34vw, 170px); }
+  .poster-tile-5 { width: 105px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-enter { transition: none; }
+  .poster-tile { animation: none; }
+}

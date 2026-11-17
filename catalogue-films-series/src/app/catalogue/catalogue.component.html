@@ -1,0 +1,115 @@
+<div class="container">
+  <app-catalogue-banner [medias]="medias()"></app-catalogue-banner>
+
+  <div class="catalogue-heading">
+    <h3>{{ i18n.t('catalogueTitle') }}</h3>
+    <hr>
+    <button
+      class="search-toggle"
+      type="button"
+      [attr.aria-expanded]="isSearchOpen()"
+      [attr.aria-label]="isSearchOpen() ? i18n.t('closeSearch') : i18n.t('openSearch')"
+      (click)="toggleSearch()">
+      <span class="search-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <form class="catalogue-search" *ngIf="isSearchOpen()" (submit)="$event.preventDefault()">
+    <input
+      type="search"
+      name="query"
+      [attr.aria-label]="i18n.t('searchTitle')"
+      [placeholder]="i18n.t('searchPlaceholder')"
+      [ngModel]="searchTerm()"
+      (ngModelChange)="onSearchChange($event)"
+      autocomplete="off">
+  </form>
+
+  <section class="catalogue-filters" aria-label="Filtres du catalogue">
+    <label>
+      <span>{{ i18n.t('type') }}</span>
+      <select [ngModel]="typeFilter()" (ngModelChange)="onTypeFilterChange($event)" name="typeFilter">
+        <option value="all">{{ i18n.t('allTypes') }}</option>
+        <option value="Film">{{ i18n.t('film') }}</option>
+        <option value="Série">{{ i18n.t('series') }}</option>
+      </select>
+    </label>
+    <label>
+      <span>{{ i18n.t('genre') }}</span>
+      <select [ngModel]="genreFilter()" (ngModelChange)="onGenreFilterChange($event)" name="genreFilter">
+        <option value="all">{{ i18n.t('allGenres') }}</option>
+        <option *ngFor="let genre of genreOptions()" [value]="genre">{{ displayGenre(genre) }}</option>
+      </select>
+    </label>
+    <label>
+      <span>{{ i18n.t('year') }}</span>
+      <select [ngModel]="yearFilter()" (ngModelChange)="onYearFilterChange($event)" name="yearFilter">
+        <option value="all">{{ i18n.t('allYears') }}</option>
+        <optgroup [label]="i18n.t('specificYear')">
+          <option *ngFor="let year of yearOptions()" [value]="'year:' + year">{{ year }}</option>
+        </optgroup>
+        <optgroup [label]="i18n.t('decade')">
+          <option *ngFor="let decade of decadeOptions()" [value]="'decade:' + decade">
+            {{ i18n.t('decades') }} {{ decade }} ({{ decade }}-{{ decade + 9 }})
+          </option>
+        </optgroup>
+      </select>
+    </label>
+    <label>
+      <span>{{ i18n.t('ratingFilter') }}</span>
+      <select [ngModel]="ratingFilter()" (ngModelChange)="onRatingFilterChange($event)" name="ratingFilter">
+        <option value="all">{{ i18n.t('allRatings') }}</option>
+        <option *ngFor="let rating of ratingOptions" [value]="rating">{{ rating }}</option>
+      </select>
+    </label>
+  </section>
+
+  <section class="catalogue-loading" *ngIf="isLoading()" role="status" aria-live="polite" aria-atomic="true">
+    <div class="loading-heading">
+      <span class="loading-spinner" aria-hidden="true"></span>
+      <div class="loading-copy">
+        <p>{{ i18n.t('loading') }}</p>
+      </div>
+    </div>
+    <span class="loading-track" aria-hidden="true"><span></span></span>
+  </section>
+  <p class="catalogue-status catalogue-error" *ngIf="errorMessage()" role="alert">{{ i18n.t('loadError') }}</p>
+  <p class="catalogue-page-status" *ngIf="isCatalogueBuilding()" role="status">D’autres titres se chargent en arrière-plan.</p>
+  <p class="catalogue-status" *ngIf="!isLoading() && !errorMessage() && medias().length === 0">{{ i18n.t('noResults') }}</p>
+  <p class="catalogue-count" *ngIf="!isLoading() && !errorMessage()">
+    {{ totalResults() }} {{ totalResults() === 1 ? i18n.t('result') : i18n.t('results') }}
+  </p>
+  <p class="catalogue-page-status" *ngIf="isPageLoading()" role="status">Chargement de la page…</p>
+
+  <div class="media-grid" *ngIf="medias().length > 0">
+    <article class="media-card" *ngFor="let media of medias()">
+      <a class="media-detail-link" [routerLink]="['/catalogue', media.id]" [attr.aria-label]="media.title">
+        <img *ngIf="media.posterUrl; else posterPlaceholder" class="media-poster" [src]="media.posterUrl" [alt]="i18n.t('posterAlt') + ' ' + media.title" loading="lazy" decoding="async">
+        <ng-template #posterPlaceholder>
+          <div class="media-poster media-poster-placeholder" aria-hidden="true"><span>{{ media.title }}</span></div>
+        </ng-template>
+        <div class="media-card-details">
+          <h2>{{ media.title }}</h2>
+          <p class="media-card-rating">{{ displayRating(media) }}</p>
+        </div>
+      </a>
+    </article>
+  </div>
+
+  <nav class="catalogue-pagination" *ngIf="!isLoading() && totalPages() > 1" aria-label="Pagination du catalogue">
+    <button type="button" (click)="loadPage(currentPage() - 1)" [disabled]="currentPage() <= 1 || isPageLoading()">
+      ← Précédent
+    </button>
+    <span>Page {{ currentPage() }} sur {{ totalPages() }}</span>
+    <button type="button" (click)="loadPage(currentPage() + 1)" [disabled]="currentPage() >= totalPages() || isPageLoading()">
+      Suivant →
+    </button>
+  </nav>
+
+  <p class="catalogue-attribution">
+    IMDb <a href="https://developer.imdb.com/non-commercial-datasets/" target="_blank" rel="noreferrer">datasets</a>,
+    {{ i18n.t('filmsData') }} <a href="https://www.wikidata.org/" target="_blank" rel="noreferrer">Wikidata</a> {{ i18n.t('conjunction') }}
+    <a href="https://www.wikipedia.org/" target="_blank" rel="noreferrer">Wikipedia</a>.
+    {{ i18n.t('seriesData') }} <a href="https://www.tvmaze.com/api" target="_blank" rel="noreferrer">TVmaze</a>.
+  </p>
+</div>

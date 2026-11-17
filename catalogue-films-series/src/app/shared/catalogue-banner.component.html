@@ -1,0 +1,22 @@
+<section class="catalogue-banner" [class]="'catalogue-banner banner-tone-' + (index() % 4)" [attr.aria-label]="i18n.t('bannerEyebrow')">
+  <div class="banner-copy">
+    <span class="banner-eyebrow"><span class="banner-sparkle" aria-hidden="true">✦</span>{{ i18n.t('bannerEyebrow') }}</span>
+    <ng-container *ngIf="featured() as media; else bannerIntro">
+      <h2>{{ media.title }}</h2>
+      <p>{{ i18n.mediaType(media.type) }} <span aria-hidden="true">·</span> {{ displayGenre(media.genre) }} <span aria-hidden="true">·</span> {{ media.releaseYear }}</p>
+    </ng-container>
+    <ng-template #bannerIntro>
+      <h2>{{ i18n.t('catalogueTitle') }}</h2>
+      <p>{{ i18n.t('bannerDescription') }}</p>
+    </ng-template>
+    <div class="banner-bottom">
+      <span class="banner-count">{{ medias().length }} {{ i18n.t('bannerCount') }}</span>
+      <div class="banner-controls" *ngIf="medias().length > 1">
+        <button type="button" (click)="move(-1)" [attr.aria-label]="i18n.t('bannerPrevious')">‹</button>
+        <button type="button" (click)="move(1)" [attr.aria-label]="i18n.t('bannerNext')">›</button>
+      </div>
+    </div>
+  </div>
+  <img *ngIf="featured() as media" class="banner-poster" [src]="media.posterUrl" alt="" aria-hidden="true" decoding="async">
+  <div class="banner-glow" aria-hidden="true"></div>
+</section>

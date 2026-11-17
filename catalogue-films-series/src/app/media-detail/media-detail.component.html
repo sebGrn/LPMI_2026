@@ -1,0 +1,154 @@
+<main class="detail-container">
+  <app-catalogue-banner [medias]="catalogue()"></app-catalogue-banner>
+
+  <a class="back-link" routerLink="/catalogue">← {{ i18n.t('backToCatalogue') }}</a>
+
+  <p class="detail-status" *ngIf="isLoading()" role="status">{{ i18n.t('loading') }}</p>
+  <p class="detail-status detail-error" *ngIf="!isLoading() && hasError()" role="alert">{{ i18n.t('mediaNotFound') }}</p>
+
+  <article class="detail-layout" *ngIf="!isLoading() && media() as item">
+    <div class="detail-poster-column">
+      <img *ngIf="item.posterUrl; else detailPosterPlaceholder" class="detail-poster" [src]="item.posterUrl" [alt]="i18n.t('posterAlt') + ' ' + item.title">
+      <ng-template #detailPosterPlaceholder>
+        <div class="detail-poster detail-poster-placeholder" role="img" [attr.aria-label]="i18n.t('posterAlt') + ' ' + item.title"><span>{{ item.title }}</span></div>
+      </ng-template>
+      <h1>{{ item.title }}</h1>
+    </div>
+
+    <section class="detail-information" aria-labelledby="detail-heading">
+      <h2 id="detail-heading">{{ i18n.t('detailHeading') }}</h2>
+      <dl class="detail-facts">
+        <div>
+          <dt>{{ i18n.t('type') }}</dt>
+          <dd>{{ i18n.mediaType(item.type) }}</dd>
+        </div>
+        <div>
+          <dt>{{ i18n.t('genre') }}</dt>
+          <dd>{{ displayGenre(item.genre) }}</dd>
+        </div>
+        <div>
+          <dt>{{ i18n.t('year') }}</dt>
+          <dd>{{ item.releaseYear }}</dd>
+        </div>
+        <div>
+          <dt>{{ i18n.t('averageRating') }}</dt>
+          <dd>{{ displayRating(item) }} <small *ngIf="item.ratingSource">({{ item.ratingSource }})</small></dd>
+        </div>
+        <div *ngIf="personName(item) as person">
+          <dt>{{ personLabel(item) }}</dt>
+          <dd class="detail-person-value">
+            <img *ngIf="personPhoto(item) as photo" [src]="photo" [alt]="person" loading="lazy" decoding="async">
+            <span>{{ person }}</span>
+          </dd>
+        </div>
+        <div *ngIf="mediaExtra().country as country">
+          <dt>{{ i18n.t('country') }}</dt>
+          <dd class="detail-country-value">
+            <img *ngIf="mediaExtra().countryFlag" [src]="mediaExtra().countryFlag" alt="" aria-hidden="true" loading="lazy" decoding="async">
+            <span>{{ country }}</span>
+          </dd>
+        </div>
+      </dl>
+      <section class="detail-awards" *ngIf="mediaExtra().awards?.length as awardCount" aria-labelledby="awards-heading">
+        <h3 id="awards-heading">{{ i18n.t('awards') }}</h3>
+        <ul>
+          <li *ngFor="let award of mediaExtra().awards">
+            <span class="award-icon" aria-hidden="true">{{ award.type === 'received' ? '🏆' : '☆' }}</span>
+            <span class="award-copy">
+              <span class="award-name">{{ award.name }}</span>
+              <span class="award-kind">{{ award.type === 'received' ? i18n.t('awardReceived') : i18n.t('awardNomination') }}<span *ngIf="award.year"> · {{ award.year }}</span></span>
+            </span>
+          </li>
+        </ul>
+      </section>
+      <div class="detail-synopsis">
+        <h3>{{ i18n.t('synopsis') }}</h3>
+        <p>{{ synopsis() }}</p>
+      </div>
+      <section class="detail-wikipedia-bio" aria-labelledby="wikipedia-bio-heading">
+        <p class="wikipedia-bio-status" *ngIf="wikipediaBiographyLoading()" role="status">{{ i18n.t('loading') }}</p>
+        <ng-container *ngIf="wikipediaBiography() as biography">
+          <h3 id="wikipedia-bio-heading">Biographie Wikipedia</h3>
+          <p>{{ biography.extract }}</p>
+          <a [href]="biography.url" target="_blank" rel="noopener noreferrer">
+            Lire l’article Wikipedia : {{ biography.title }}
+          </a>
+        </ng-container>
+      </section>
+    </section>
+  </article>
+
+  <section class="trailer-section" *ngIf="!isLoading() && media() as item" aria-labelledby="trailers-heading">
+    <div class="trailer-section-heading">
+      <h2 id="trailers-heading">{{ i18n.t('trailerHeading') }}</h2>
+      <p>{{ i18n.t('trailerDescription') }}</p>
+    </div>
+
+    <p class="trailer-status" *ngIf="trailersLoading()" role="status">{{ i18n.t('loading') }}</p>
+
+    <div class="trailer-grid">
+      <article class="trailer-card">
+        <h3>{{ i18n.t('trailerFrench') }}</h3>
+        <iframe *ngIf="trailerFor('fr') as trailer" [src]="youtubeEmbedUrl(trailer.key)" [title]="trailer.title" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <p *ngIf="!trailersLoading() && !trailerFor('fr')">{{ i18n.t('trailerUnavailable') }}</p>
+        <a *ngIf="!trailersConfigured() && !trailersLoading()" class="trailer-fallback" [href]="youtubeSearchUrl(item, 'fr')" target="_blank" rel="noopener noreferrer">{{ i18n.t('trailerSearch') }}</a>
+      </article>
+      <article class="trailer-card">
+        <h3>{{ i18n.t('trailerEnglish') }}</h3>
+        <iframe *ngIf="trailerFor('en') as trailer" [src]="youtubeEmbedUrl(trailer.key)" [title]="trailer.title" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <p *ngIf="!trailersLoading() && !trailerFor('en')">{{ i18n.t('trailerUnavailable') }}</p>
+        <a *ngIf="!trailersConfigured() && !trailersLoading()" class="trailer-fallback" [href]="youtubeSearchUrl(item, 'en')" target="_blank" rel="noopener noreferrer">{{ i18n.t('trailerSearch') }}</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="soundtrack-section" *ngIf="!isLoading() && media() as item">
+    <div class="trailer-section-heading">
+      <h2>Musiques du film</h2>
+      <p>Playlist Spotify ou pistes associées</p>
+    </div>
+
+    <p class="trailer-status" *ngIf="soundtrackLoading()" role="status">{{ i18n.t('loading') }}</p>
+
+    <div class="soundtrack-list" *ngIf="!soundtrackLoading() && soundtrackTracks().length">
+      <button
+        class="soundtrack-item"
+        type="button"
+        *ngFor="let track of soundtrackTracks(); let index = index"
+        (click)="toggleTrackPreview(track)"
+        [class.active]="activeTrackUrl() === track.previewUrl">
+        <span class="track-index">{{ index + 1 }}</span>
+        <div class="track-copy">
+          <strong>{{ track.title }}</strong>
+          <span>{{ track.artist }}</span>
+        </div>
+        <span class="track-duration">{{ formatTrackDuration(track.durationMs) }}</span>
+      </button>
+    </div>
+
+    <p class="trailer-status" *ngIf="!soundtrackLoading() && !soundtrackTracks().length">
+      Aucune musique associée trouvée pour ce média.
+    </p>
+
+    <article class="youtube-soundtrack" *ngIf="soundtrackPlaylist() as playlist">
+      <div class="youtube-soundtrack-heading">
+        <div>
+          <h3>Playlist YouTube</h3>
+          <p>{{ playlist.title }}<span *ngIf="playlist.channelTitle"> · {{ playlist.channelTitle }}</span></p>
+        </div>
+        <a [href]="'https://www.youtube.com/playlist?list=' + playlist.id" target="_blank" rel="noopener noreferrer">
+          Ouvrir sur YouTube
+        </a>
+      </div>
+      <iframe
+        [src]="playlistEmbedUrl(playlist.id)"
+        [title]="'Bande originale : ' + playlist.title"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>
+    </article>
+  </section>
+
+  <!-- Section de commentaires liée au média en cours -->
+  <app-comments-section *ngIf="!isLoading() && media() as item" [mediaId]="item.id"></app-comments-section>
+</main>

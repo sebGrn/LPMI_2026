@@ -1,0 +1,32 @@
+<div class="top-bar-wrapper" (click)="$event.stopPropagation()">
+  <div class="top-actions">
+    <button class="assistant-button" type="button" routerLink="/chatbot">ChatBot AI</button>
+
+    <div class="language-toolbar">
+      <span id="language-label">{{ i18n.t('language') }}</span>
+      <div class="language-picker">
+        <button
+          id="site-language"
+          class="language-picker-trigger"
+          type="button"
+          aria-haspopup="menu"
+          aria-labelledby="language-label current-language"
+          [attr.aria-expanded]="isLanguageMenuOpen"
+          (click)="isLanguageMenuOpen = !isLanguageMenuOpen">
+          <img class="language-flag" [src]="selectedLanguage.flag" alt="">
+          <span id="current-language">{{ selectedLanguage.label }}</span>
+          <span class="language-chevron" aria-hidden="true"></span>
+        </button>
+
+        <div class="language-picker-menu" role="menu" *ngIf="isLanguageMenuOpen">
+          <button *ngFor="let option of languageOptions" type="button" role="menuitem" [attr.aria-current]="i18n.language() === option.code ? 'true' : null" (click)="setLanguage(option.code)">
+            <img class="language-flag" [src]="option.flag" alt="">
+            <span>{{ option.label }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
