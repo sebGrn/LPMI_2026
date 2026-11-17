@@ -1,0 +1,48 @@
+<div class="chart-header">
+  <div>
+    <p class="eyebrow">HISTORIQUE DU COURS · {{ coin.symbol }} / EUR</p>
+    <h2 mat-dialog-title>{{ coin.name }}</h2>
+  </div>
+  <button mat-button mat-dialog-close class="close" aria-label="Fermer le graphique">✕</button>
+</div>
+<mat-dialog-content>
+  <div class="chart-summary">
+    <div><span class="current-price">{{ currentCoin().price | currency:'EUR':'symbol':'1.2-4' }}</span><small>Dernier cours reçu · {{ currentCoin().updated_at | date:'HH:mm:ss' }}</small></div>
+    <span class="feed-status" role="status">{{ crypto.status() === 'live' ? '● Flux connecté' : '○ Flux interrompu · dernières valeurs reçues' }}</span>
+  </div>
+  <div class="periods" role="group" aria-label="Période du graphique">
+    @for (option of periods; track option.value) {
+      <button mat-button [attr.aria-pressed]="period() === option.value" [class.selected]="period() === option.value" (click)="selectPeriod(option.value)">{{ option.label }}</button>
+    }
+  </div>
+  <div class="chart-meta" aria-live="polite">
+    @if (history(); as history) {
+      <span>{{ period() === 'max' ? 'Historique disponible' : 'Période' }} : {{ (points()[0]?.time ?? history.start) * 1000 | date:'dd MMM yyyy HH:mm' }} → {{ (points().at(-1)?.time ?? history.end) * 1000 | date:'dd MMM yyyy HH:mm' }}</span>
+      @if (change() !== null) {
+        <strong [class.negative]="change()! < 0">{{ change()! >= 0 ? '+' : '' }}{{ change() | number:'1.2-2' }} % sur la courbe</strong>
+      }
+    }
+  </div>
+  <div class="chart-container" [attr.aria-busy]="loading()">
+    <canvas #canvas role="img" [attr.aria-label]="'Évolution du cours de ' + coin.name + ' en euros. Les valeurs sont aussi disponibles dans le tableau sous le graphique.'" [hidden]="loading() || error() || !points().length"></canvas>
+    @if (loading()) {
+      <div class="chart-state" role="status"><span class="spinner" aria-hidden="true"></span><strong>Chargement de l’historique…</strong><p>{{ period() === 'max' ? 'La première récupération de l’historique complet peut prendre quelques secondes.' : 'Récupération des cours Coinbase.' }}</p></div>
+    } @else if (error()) {
+      <div class="chart-state" role="alert"><strong>{{ error() }}</strong><button mat-stroked-button (click)="load()">Réessayer</button></div>
+    } @else if (!points().length) {
+      <div class="chart-state" role="status"><strong>Aucun cours disponible pour cette période.</strong><p>Essayez une période plus longue.</p></div>
+    }
+  </div>
+  <p class="chart-note">{{ period() === 'day' ? 'Depuis minuit · ' + timezone + '. ' : '' }}Clôtures par intervalle de {{ intervalLabel() }}, complétées par le dernier cours reçu. Les intervalles sans échange peuvent être absents.</p>
+  @if (points().length && !loading() && !error()) {
+    <button mat-button [attr.aria-expanded]="showData()" aria-controls="chart-data" (click)="showData.set(!showData())">{{ showData() ? 'Masquer les données' : 'Afficher les données du graphique' }}</button>
+    @if (showData()) {
+      <div id="chart-data" class="data-table" tabindex="0" role="region" aria-label="Valeurs du graphique">
+        <table><caption>Cours de {{ coin.name }} en EUR</caption><thead><tr><th scope="col">Date et heure</th><th scope="col">Cours</th></tr></thead><tbody>
+          @for (point of points(); track point.time) { <tr><td>{{ point.time * 1000 | date:'dd/MM/yyyy HH:mm' }}</td><td>{{ point.price | currency:'EUR':'symbol':'1.2-4' }}</td></tr> }
+        </tbody></table>
+      </div>
+    }
+  }
+  <p class="source">Source : Coinbase Exchange · L’historique débute à la première cotation disponible de cette paire.</p>
+</mat-dialog-content>

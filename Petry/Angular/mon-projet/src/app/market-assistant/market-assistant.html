@@ -1,0 +1,58 @@
+<section class="assistant" aria-labelledby="assistant-title">
+  <div class="heading">
+    <div><p class="eyebrow">COMPRENDRE LE MARCHÉ</p><h2 id="assistant-title">Assistant IA</h2><p>Comparez les cryptos du tracker à partir de leurs cours et historiques.</p></div>
+    <div class="model-status" role="status"><span [class.ready]="status()?.available">●</span> {{ checking() ? 'Vérification…' : status()?.available ? status()!.model : 'Assistant indisponible' }}</div>
+  </div>
+  @if (!checking() && !status()?.available) {
+    <div class="notice" role="status"><span>{{ status()?.message }}</span><button mat-button (click)="checkStatus()">Actualiser l’état</button></div>
+  }
+  <form (ngSubmit)="analyze()">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Votre question sur les cryptomonnaies</mat-label>
+      <textarea matInput name="question" [(ngModel)]="question" rows="3" minlength="3" maxlength="2000" required [disabled]="busy()"></textarea>
+    </mat-form-field>
+    <div class="actions">
+      <label class="period">Historique analysé
+        <select name="period" [(ngModel)]="period" [disabled]="busy()">
+          <option value="week">7 derniers jours</option><option value="month">Dernier mois</option><option value="year">Dernière année</option>
+        </select>
+      </label>
+      <button mat-flat-button type="submit" [disabled]="busy() || checking() || !status()?.available || question.trim().length < 3">{{ busy() ? 'Analyse en cours…' : 'Analyser le marché' }}</button>
+    </div>
+  </form>
+  <p class="limitation">L’IA peut se tromper. Cette analyse des cours passés ne prédit pas les rendements et ne suffit pas à établir un conseil d’investissement personnalisé.</p>
+  @if (busy()) { <p class="waiting" role="status">Récupération des historiques et analyse par le modèle. Le premier chargement peut prendre un peu plus de temps.</p> }
+  @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+  @if (result(); as analysis) {
+    <article class="analysis" aria-label="Résultat de l’analyse">
+      <div class="result-heading"><strong>Analyse · {{ periodLabels[analysis.evidence.period] }}</strong><span>{{ analysis.model }} · {{ analysis.generated_at | date:'dd/MM/yyyy HH:mm' }}</span></div>
+      <p class="question">{{ answeredQuestion() }}</p>
+      <div class="answer">{{ analysis.answer }}</div>
+      @if (analysis.truncated) { <p class="notice">La réponse a atteint la limite de longueur. Posez une question plus précise pour la compléter.</p> }
+      <details>
+        <summary>Voir les données utilisées · {{ analysis.evidence.source }}</summary>
+        <p class="data-note">Collecte lancée le {{ analysis.evidence.collected_at | date:'dd/MM/yyyy HH:mm:ss' }}. {{ analysis.evidence.feed_status === 'live' ? 'Flux de cours connecté.' : 'Flux de cours interrompu : les cotations peuvent être anciennes.' }} Les indicateurs portent sur les clôtures historiques de la période indiquée pour chaque actif.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Données transmises au modèle">
+          <table>
+            <thead><tr><th scope="col">Actif</th><th scope="col">Dernier cours reçu</th><th scope="col">Variation historique</th><th scope="col">Baisse max. observée</th><th scope="col">Volatilité / intervalle</th><th scope="col">Historique disponible</th></tr></thead>
+            <tbody>
+              @for (asset of analysis.evidence.assets; track asset.product_id) {
+                <tr>
+                  <td><strong>{{ asset.symbol }}</strong></td>
+                  <td>@if (asset.last_quote; as quote) { {{ quote.price_eur | currency:'EUR':'symbol':'1.2-4' }}<small>{{ quote.received_at | date:'dd/MM HH:mm:ss' }}{{ quote.stale ? ' · ancienne' : '' }}</small> } @else { Indisponible }</td>
+                  @if (asset.history.available) {
+                    <td>{{ asset.history.return_pct | number:'1.2-2' }} %</td>
+                    <td>{{ asset.history.max_drawdown_pct | number:'1.2-2' }} %</td>
+                    <td>{{ asset.history.volatility_pct_per_interval | number:'1.2-2' }} %<small>Intervalle : {{ (asset.history.interval_seconds ?? 0) / 3600 }} h</small></td>
+                    <td>{{ asset.history.samples }} clôtures<small>{{ asset.history.start! * 1000 | date:'dd/MM/yyyy HH:mm' }} → {{ asset.history.end! * 1000 | date:'dd/MM/yyyy HH:mm' }}</small>@if (asset.history.gap_count) { <small>{{ asset.history.gap_count }} interruption(s)</small> }</td>
+                  } @else { <td colspan="4">{{ asset.history.reason }}</td> }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="data-note">Baisse maximale : recul depuis un sommet sur les clôtures disponibles. Volatilité : écart type des rendements logarithmiques par intervalle, non annualisé. Les trous dans l’historique et l’échantillonnage limitent ces mesures.</p>
+      </details>
+    </article>
+  }
+</section>

@@ -1,0 +1,38 @@
+:host { display: block; color: #182c3a; }
+.chart-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 24px 24px 0; }
+.eyebrow { margin: 0 0 6px; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: #367570; }
+h2[mat-dialog-title] { padding: 0; margin: 0; font-size: 28px; letter-spacing: -.8px; }
+h2::before { display: none; }
+.close { min-width: 40px; }
+mat-dialog-content { padding: 20px 24px 24px !important; max-height: 78dvh; }
+.chart-summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.current-price { display: block; font-size: 30px; font-weight: 650; letter-spacing: -.8px; font-variant-numeric: tabular-nums; line-height: 1.3; }
+small, .feed-status, .chart-note, .source { color: #61737f; font-size: 11px; line-height: 1.6; }
+.feed-status { text-align: right; }
+.periods { display: flex; flex-wrap: wrap; gap: 4px; padding: 5px; border-radius: 12px; background: #f1f5f6; width: fit-content; }
+.periods button { color: #4b646c; }
+.periods .selected { background: #123f45; color: #fff; }
+.chart-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; min-height: 44px; padding: 16px 0 8px; color: #61737f; font-size: 11px; }
+.chart-meta strong { color: #137657; }
+.chart-meta .negative { color: #b2384b; }
+.chart-container { position: relative; height: 330px; width: 100%; }
+.chart-state { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 24px; background: #f8fafb; border-radius: 12px; }
+.chart-state p { margin: 0; color: #61737f; font-size: 13px; }
+.spinner { width: 28px; height: 28px; border: 3px solid #dcebe6; border-top-color: #137d70; border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+.chart-note { margin: 16px 0 4px; }
+.source { margin-bottom: 0; }
+.data-table { max-height: 220px; overflow: auto; margin: 8px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+caption { text-align: left; padding: 8px; }
+th, td { padding: 8px; border-bottom: 1px solid #e3e9ee; text-align: left; font-variant-numeric: tabular-nums; }
+@media (max-width: 600px) {
+  .chart-header { padding: 20px 16px 0; }
+  mat-dialog-content { padding: 16px !important; }
+  .chart-summary { align-items: flex-start; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .chart-container { height: 280px; }
+  .periods { width: 100%; justify-content: space-between; gap: 0; }
+  .periods button { min-width: 0; padding: 0 9px; font-size: 12px; }
+  .current-price { font-size: 26px; }
+}

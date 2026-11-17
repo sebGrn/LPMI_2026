@@ -1,0 +1,16 @@
+# Public HTTPS deployment. Requires Compose >=2.24.4 for !override.
+services:
+  web:
+    ports: !override
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN:?Définir SITE_DOMAIN dans .env}
+      BASIC_AUTH_USER: ${BASIC_AUTH_USER:-tracker}
+      BASIC_AUTH_HASH: ${BASIC_AUTH_HASH:?Définir le hash du mot de passe dans .env}
+    volumes:
+      - ./docker/Caddyfile.production:/etc/caddy/Caddyfile:ro
+  api:
+    environment:
+      ALLOWED_ORIGINS: https://${SITE_DOMAIN:?Définir SITE_DOMAIN dans .env}

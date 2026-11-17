@@ -1,0 +1,84 @@
+<div class="dashboard">
+  <header>
+    <a class="brand" href="/" aria-label="CryptoScope, accueil"><span class="brand-icon">↗</span> CryptoScope</a>
+    <span class="source">Données Coinbase Exchange · EUR</span>
+  </header>
+  <main>
+    <section class="intro">
+      <div>
+        <p class="eyebrow">VOTRE OBSERVATOIRE CRYPTO</p>
+        <h1>Le marché, en direct.</h1>
+        <p>Suivez vos cryptomonnaies et leur évolution sur 24 heures.</p>
+      </div>
+      <div class="connection" role="status" aria-live="polite">
+        <span class="dot" [class.live]="crypto.status() === 'live'"></span>{{ statusLabel() }}
+      </div>
+    </section>
+    @if (crypto.status() !== 'live') {
+      <div class="notice" role="status">
+        <span>En attente du flux. Les éventuels cours affichés sont les dernières valeurs reçues.</span>
+        <button mat-button (click)="crypto.reconnect()">Reconnecter</button>
+      </div>
+    }
+    <section class="overview" aria-label="Cours des cryptomonnaies">
+      @for (coin of crypto.coins(); track coin.product_id) {
+        <button type="button" class="coin-card" (click)="openChart(coin)" [attr.aria-label]="'Voir le graphique de ' + coin.name" aria-haspopup="dialog">
+          <div class="card-heading"><span class="coin-icon" [attr.data-symbol]="coin.symbol">{{ coin.symbol.slice(0, 1) }}</span><span>{{ coin.name }} <small>{{ coin.symbol }}</small></span></div>
+          <span class="price">{{ coin.price | currency:'EUR':'symbol':'1.2-2' }}</span>
+          @if (coin.change_24h !== null) {
+            <span class="change" [class.positive]="coin.change_24h >= 0" [class.negative]="coin.change_24h < 0">{{ coin.change_24h >= 0 ? '+' : '' }}{{ coin.change_24h | number:'1.2-2' }} %</span><span class="period"> sur 24 h</span>
+          } @else {
+            <span class="period">Variation indisponible</span>
+          }
+          <span class="chart-link">Voir le graphique ↗</span>
+        </button>
+      } @empty {
+        <div class="empty-card"><strong>En attente des premiers cours</strong><p>Les cotations apparaîtront dès leur réception depuis Coinbase.</p></div>
+      }
+    </section>
+    <section class="market" aria-labelledby="market-title">
+      <div class="market-heading">
+        <div><h2 id="market-title">Vue du marché</h2><p>Bitcoin, Ethereum, Solana et Cardano</p></div>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Rechercher une crypto</mat-label>
+          <input matInput type="search" [value]="search()" (input)="search.set($any($event.target).value)">
+        </mat-form-field>
+      </div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Tableau des cours, défilement horizontal disponible">
+        <table mat-table [dataSource]="filteredCoins()">
+          <ng-container matColumnDef="asset">
+            <th mat-header-cell *matHeaderCellDef>Actif</th>
+            <td mat-cell *matCellDef="let coin"><button mat-button class="asset-link" (click)="openChart(coin)" [attr.aria-label]="'Voir le graphique de ' + coin.name" aria-haspopup="dialog">{{ coin.name }} ↗</button><small class="symbol">{{ coin.symbol }} / EUR</small></td>
+          </ng-container>
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Dernier cours</th>
+            <td mat-cell *matCellDef="let coin" class="numeric">{{ coin.price | currency:'EUR':'symbol':'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="change">
+            <th mat-header-cell *matHeaderCellDef>Variation 24 h</th>
+            <td mat-cell *matCellDef="let coin" [class.positive]="coin.change_24h !== null && coin.change_24h >= 0" [class.negative]="coin.change_24h !== null && coin.change_24h < 0">
+              @if (coin.change_24h !== null) { {{ coin.change_24h >= 0 ? '+' : '' }}{{ coin.change_24h | number:'1.2-2' }} % } @else { — }
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="low">
+            <th mat-header-cell *matHeaderCellDef>Plus bas 24 h</th>
+            <td mat-cell *matCellDef="let coin">{{ coin.low_24h === null ? '—' : (coin.low_24h | currency:'EUR':'symbol':'1.2-2') }}</td>
+          </ng-container>
+          <ng-container matColumnDef="high">
+            <th mat-header-cell *matHeaderCellDef>Plus haut 24 h</th>
+            <td mat-cell *matCellDef="let coin">{{ coin.high_24h === null ? '—' : (coin.high_24h | currency:'EUR':'symbol':'1.2-2') }}</td>
+          </ng-container>
+          <ng-container matColumnDef="updated">
+            <th mat-header-cell *matHeaderCellDef>Dernière réception</th>
+            <td mat-cell *matCellDef="let coin">{{ coin.updated_at | date:'HH:mm:ss' }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columns"></tr>
+          <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+          <tr class="mat-row" *matNoDataRow><td class="no-data" [attr.colspan]="columns.length">{{ search() ? 'Aucune crypto ne correspond à votre recherche.' : 'Aucun cours reçu pour le moment.' }}</td></tr>
+        </table>
+      </div>
+    </section>
+    <app-market-assistant />
+    <footer>Source : Coinbase Exchange · Cotations en euros · Actualisation de l’affichage chaque seconde</footer>
+  </main>
+</div>

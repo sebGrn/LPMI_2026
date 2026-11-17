@@ -1,0 +1,10 @@
+@use '@angular/material' as mat;
+html {
+  @include mat.theme((
+    color: (primary: mat.$cyan-palette, tertiary: mat.$green-palette),
+    typography: Arial,
+    density: -2,
+  ));
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, "Helvetica Neue", sans-serif; color-scheme: light; }
