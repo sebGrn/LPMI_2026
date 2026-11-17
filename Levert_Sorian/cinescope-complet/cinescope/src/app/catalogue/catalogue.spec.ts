@@ -1,0 +1,30 @@
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { Catalogue } from './catalogue';
+
+describe('Catalogue', () => {
+  let component: Catalogue;
+  let fixture: ComponentFixture<Catalogue>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Catalogue],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(Catalogue);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

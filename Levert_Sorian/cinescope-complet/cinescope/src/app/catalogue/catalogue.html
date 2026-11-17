@@ -1,0 +1,108 @@
+@if (chargementTMDB()) {
+  <p>🔎 Recherche des films en cours...</p>
+}
+
+@if (erreurTMDB()) {
+  <p class="message-erreur">{{ erreurTMDB() }}</p>
+}
+
+<div class="barre-recherche">
+
+  <span>🔎</span>
+
+  <input
+    type="search"
+    placeholder="Rechercher un film..."
+    [(ngModel)]="recherche"
+    (ngModelChange)="reinitialiserRechercheTMDB()"
+    (keyup.enter)="chercherSurTMDB()"
+  />
+
+  <button
+    type="button"
+    (click)="chercherSurTMDB()"
+    [disabled]="chargementTMDB() || !recherche.trim()"
+  >
+    Rechercher
+  </button>
+
+</div>
+
+<div class="categories">
+
+  <h3>Explorer par catégorie</h3>
+
+
+  <div class="liste-categories">
+
+    @for (genre of genres; track genre) {
+
+      <button
+        type="button"
+        [class.actif]="genreSelectionne === genre"
+        [attr.aria-pressed]="genreSelectionne === genre"
+        (click)="genreSelectionne = genre"
+      >
+        {{ genre }}
+      </button>
+
+    }
+
+  </div>
+
+</div>
+
+<p class="compteur-films">
+  {{ filmsAffiches.length }}
+  {{ filmsAffiches.length === 1 ? 'film trouvé' : 'films trouvés' }}
+</p>
+
+<div class="grille-films">
+
+  @for (film of filmsAffiches; track film.source + '-' + film.id) {
+
+    <a
+      class="carte-film"
+      [routerLink]="film.source === 'tmdb'
+        ? ['/film', 'tmdb', film.id]
+        : ['/film', film.id]"
+    >
+
+      <div class="affiche">
+        @if (film.affiche) {
+          <img
+            [src]="film.affiche"
+            [alt]="'Affiche de ' + film.titre"
+            loading="lazy"
+          />
+        } @else {
+          <span>🎬</span>
+        }
+      </div>
+
+      <div class="infos-film">
+        <h3>{{ film.titre }}</h3>
+
+        <p class="genre">
+          @if (film.source === 'tmdb') {
+            🌍 Découverte TMDB
+          } @else {
+            {{ film.genre }}
+          }
+        </p>
+
+        <span class="annee">{{ film.annee }}</span>
+      </div>
+
+    </a>
+
+  } @empty {
+
+    <p class="aucun-resultat">
+      Aucun film trouvé pour "{{ recherche }}".
+    </p>
+
+  }
+
+</div>
+

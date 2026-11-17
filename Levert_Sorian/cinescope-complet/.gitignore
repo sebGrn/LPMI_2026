@@ -1,0 +1,15 @@
+# Fichiers sensibles
+**/.env
+**/.env.*
+!**/.env.example
+
+# Dépendances
+**/node_modules/
+**/.venv/
+
+# Fichiers temporaires
+**/__pycache__/
+**/*.pyc
+**/dist/
+**/.angular/
+**/coverage/

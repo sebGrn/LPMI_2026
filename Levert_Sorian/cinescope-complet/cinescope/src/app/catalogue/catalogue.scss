@@ -1,0 +1,442 @@
+.grille-films {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 220px));
+  gap: 25px;
+  margin-top: 30px;
+  justify-content: start;
+}
+
+.carte-film {
+  background: #1c1c27;
+  border: 1px solid #30303d;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+
+  transition: transform 0.3s ease,
+              box-shadow 0.3s ease;
+
+  animation: apparition 0.6s ease both;
+
+  &:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.affiche {
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: #242432;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transition: transform 0.5s ease;
+  }
+}
+
+.carte-film:hover .affiche img {
+  transform: scale(1.08);
+}
+
+.carte-film:hover {
+  border-color: #e50914;
+}
+
+.infos-film {
+  padding: 20px;
+
+  h3 {
+    font-size: 19px;
+    margin: 0 0 12px;
+  }
+}
+
+.genre {
+  color: #e50914;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.annee {
+  color: #aaaaaa;
+  font-size: 13px;
+}
+
+@keyframes apparition {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carte-film {
+    animation: none;
+    transition: none;
+  }
+
+  .carte-film:hover {
+    transform: none;
+  }
+}
+
+.barre-recherche {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  max-width: 550px;
+  padding: 6px 20px;
+  margin-bottom: 35px;
+
+  background: #1c1c27;
+  border: 1px solid #333344;
+  border-radius: 12px;
+
+  transition: border-color 0.3s ease;
+
+  &:focus-within {
+    border-color: #e50914;
+    box-shadow: 0 0 15px rgba(229, 9, 20, 0.15);
+  }
+
+  input {
+    width: 100%;
+    padding: 15px 0;
+
+    background: transparent;
+    border: none;
+    outline: none;
+
+    color: white;
+    font-size: 16px;
+
+    &::placeholder {
+      color: #858595;
+    }
+  }
+}
+
+.aucun-resultat {
+  color: #aaaaaa;
+  font-size: 18px;
+  padding: 30px 0;
+}
+
+.categories {
+  margin-bottom: 35px;
+
+  h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+}
+
+.liste-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  button {
+    background: #1c1c27;
+    border: 1px solid #353543;
+    color: #b5b5bf;
+
+    padding: 12px 22px;
+    border-radius: 30px;
+
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+
+    &:hover {
+      background: #292936;
+      color: white;
+      border-color: #e50914;
+      transform: translateY(-2px);
+    }
+
+    &.actif {
+      background: #e50914;
+      color: white;
+      border-color: #e50914;
+      box-shadow: 0 4px 20px rgba(229, 9, 20, 0.25);
+    }
+
+    &:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 3px;
+    }
+  }
+}
+
+.compteur-films {
+  color: #aaaabb;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.carte-film {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.recherche-tmdb {
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid #353543;
+
+  h2 {
+    font-size: 28px;
+    color: white;
+  }
+
+  p {
+    color: #b5b5bf;
+    line-height: 1.6;
+  }
+}
+
+.tmdb-formulaire {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 30px 0 40px;
+
+  input {
+    flex: 1 1 250px;
+    min-width: 0;
+    padding: 16px 20px;
+
+    background: #1c1c27;
+    border: 1px solid #353543;
+    border-radius: 10px;
+
+    color: white;
+    font-size: 16px;
+
+    &:focus {
+      outline: none;
+      border-color: #e50914;
+    }
+  }
+
+  button {
+    padding: 16px 28px;
+    border: none;
+    border-radius: 10px;
+
+    background: #e50914;
+    color: white;
+
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      background: #b20710;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.message-erreur {
+  color: #ff616b !important;
+}
+
+.barre-recherche {
+  max-width: 850px;
+  width: 100%;
+  box-sizing: border-box;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+  }
+
+  button {
+    background: #e50914;
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+    padding: 13px 20px;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #b20710;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .barre-recherche {
+    flex-wrap: wrap;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.carte-distante {
+  cursor: default;
+
+  &:hover {
+    transform: none;
+  }
+}
+
+.affiche span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 60px;
+}
+
+.grille-films {
+  position: relative;
+  z-index: 1;
+}
+
+.grille-films::before,
+.grille-films::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grille-films::before {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(229, 9, 20, 0.18) 0 6px, transparent 7px),
+    radial-gradient(circle at 28% 72%, rgba(255, 255, 255, 0.08) 0 3px, transparent 4px),
+    radial-gradient(circle at 47% 25%, rgba(229, 9, 20, 0.14) 0 5px, transparent 6px),
+    radial-gradient(circle at 63% 82%, rgba(255, 255, 255, 0.06) 0 4px, transparent 5px),
+    radial-gradient(circle at 78% 30%, rgba(229, 9, 20, 0.16) 0 6px, transparent 7px),
+    radial-gradient(circle at 90% 65%, rgba(255, 255, 255, 0.08) 0 4px, transparent 5px);
+  animation: particulesFlottantes1 16s linear infinite;
+  opacity: 0.8;
+}
+
+.grille-films::after {
+  background:
+    radial-gradient(circle at 18% 55%, rgba(255, 255, 255, 0.05) 0 3px, transparent 4px),
+    radial-gradient(circle at 35% 15%, rgba(229, 9, 20, 0.16) 0 5px, transparent 6px),
+    radial-gradient(circle at 55% 60%, rgba(255, 255, 255, 0.07) 0 3px, transparent 4px),
+    radial-gradient(circle at 73% 18%, rgba(229, 9, 20, 0.14) 0 4px, transparent 5px),
+    radial-gradient(circle at 84% 78%, rgba(255, 255, 255, 0.05) 0 3px, transparent 4px);
+  animation: particulesFlottantes2 22s linear infinite;
+  opacity: 0.65;
+}
+
+.carte-film {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.carte-film::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.16) 0%,
+    rgba(229, 9, 20, 0.06) 30%,
+    transparent 65%
+  );
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.carte-film:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.carte-film > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes particulesFlottantes1 {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+
+  50% {
+    transform: translateY(-18px) translateX(10px);
+  }
+
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+@keyframes particulesFlottantes2 {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+
+  50% {
+    transform: translateY(14px) translateX(-12px);
+  }
+
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grille-films::before,
+  .grille-films::after,
+  .section-catalogue::before,
+  .section-catalogue::after {
+    animation: none;
+  }
+
+  .carte-film::before {
+    transition: none;
+  }
+}
+
+/* Supprimer les anciennes particules de la grille */
+
+.grille-films::before,
+.grille-films::after {
+  content: none;
+  animation: none;
+}

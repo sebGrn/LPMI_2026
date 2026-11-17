@@ -1,0 +1,293 @@
+
+<main class="page-fiche">
+
+  <!-- NAVIGATION -->
+
+  <nav class="navigation">
+
+    <a routerLink="/" class="retour">
+      ← Retour au catalogue
+    </a>
+
+    <span class="logo">🎬 CineScope</span>
+
+  </nav>
+
+  <!-- MESSAGE D'ERREUR -->
+
+  @if (erreur()) {
+
+    <p class="message-erreur" role="alert">
+      ⚠️ {{ erreur() }}
+    </p>
+
+  }
+
+  <!-- CHARGEMENT -->
+
+  @if (chargement()) {
+
+    <div class="chargement">
+
+      <div class="spinner"></div>
+
+      <p>Chargement des informations du film...</p>
+
+    </div>
+
+  } @else {
+
+    <!-- FICHE DU FILM -->
+
+    @if (film(); as details) {
+
+      <section class="fiche">
+
+        <!-- AFFICHE -->
+
+        <div class="colonne-affiche">
+
+          @if (details.affiche) {
+
+            <img
+              class="affiche"
+              [src]="details.affiche"
+              [alt]="'Affiche de ' + details.titre"
+            />
+
+          } @else {
+
+            <div class="affiche-absente">
+              🎬
+            </div>
+
+          }
+
+        </div>
+
+        <!-- INFORMATIONS -->
+
+        <div class="informations">
+
+          <p class="sur-titre">
+            CINESCOPE · FICHE FILM
+          </p>
+
+          <h1>{{ details.titre }}</h1>
+
+          <!-- ANNEE / DUREE / NOTE -->
+
+          <div class="metadonnees">
+
+            @if (details.annee !== null) {
+              <span>📅 {{ details.annee }}</span>
+            }
+
+            @if (details.duree !== null) {
+              <span>🕒 {{ details.duree }} min</span>
+            }
+
+            @if (details.note !== null) {
+
+              <span class="note">
+                ★ {{ details.note.toFixed(1) }}/10
+              </span>
+
+            }
+
+          </div>
+
+          <!-- GENRES -->
+
+          <div class="genres">
+            {{ details.genre || 'Genre non renseigné' }}
+          </div>
+
+          <!-- SYNOPSIS -->
+
+          <div class="synopsis">
+
+            <h2>Synopsis</h2>
+
+            <p>
+              {{
+                details.synopsis ||
+                'Synopsis indisponible pour le moment.'
+              }}
+            </p>
+
+          </div>
+
+          <!-- REALISATEUR ET ACTEURS -->
+
+          <div class="equipe">
+
+            @if (details.realisateur) {
+
+              <div>
+
+                <h3>Réalisation</h3>
+
+                <p>{{ details.realisateur }}</p>
+
+              </div>
+
+            }
+
+            @if (details.acteurs.length > 0) {
+
+              <div>
+
+                <h3>Acteurs principaux</h3>
+
+                <p>
+                  {{ details.acteurs.join(' · ') }}
+                </p>
+
+              </div>
+
+            }
+
+          </div>
+
+          <!-- BANDE-ANNONCE -->
+
+          @if (details.bandeAnnonce) {
+
+            <a
+              class="bouton-trailer"
+              [href]="details.bandeAnnonce"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ▶ Regarder la bande-annonce
+            </a>
+
+          }
+
+        </div>
+
+      </section>
+
+
+      <!-- ====================================== -->
+      <!-- AJOUT 1 : SECTION DES COMMENTAIRES     -->
+      <!-- ====================================== -->
+
+      <!-- Cette section apparaît sous la fiche. -->
+
+      <div class="commentaires">
+
+        <h2>Commentaires</h2>
+
+
+        <!-- ====================================== -->
+        <!-- AJOUT 2 : CHAMP POUR ECRIRE             -->
+        <!-- ====================================== -->
+
+        <!--
+          textarea permet d'écrire plusieurs lignes.
+
+          #champCommentaire donne un nom au champ.
+          Angular peut ensuite récupérer ce champ
+          et son contenu.
+        -->
+
+        <textarea
+          #champCommentaire
+          rows="4"
+          cols="45"
+          placeholder="Écris ton commentaire ici..."
+        ></textarea>
+
+        <br>
+
+
+        <!-- ====================================== -->
+        <!-- AJOUT 3 : BOUTON D'AJOUT                -->
+        <!-- ====================================== -->
+
+        <!--
+          (click) détecte un clic sur le bouton.
+
+          ajouterCommentaire() est la fonction
+          créée dans fiche-film.ts.
+
+          On lui transmet le champ de texte.
+        -->
+
+        <button
+          type="button"
+          (click)="ajouterCommentaire(champCommentaire)"
+        >
+          Ajouter un commentaire
+        </button>
+
+
+        <!-- ====================================== -->
+        <!-- AJOUT 4 : AFFICHAGE DES COMMENTAIRES   -->
+        <!-- ====================================== -->
+
+        <h3>Commentaires ajoutés :</h3>
+
+        <!--
+          Si la liste est vide, on affiche un message.
+          length représente le nombre de commentaires.
+        -->
+
+        @if (commentaires().length === 0) {
+
+          <p>Aucun commentaire pour le moment.</p>
+
+        }
+
+
+        <!--
+          @for parcourt notre liste de commentaires.
+
+          Pour chaque commentaire de la liste,
+          Angular crée un paragraphe <p>.
+
+          {{ commentaire }} affiche son texte.
+
+          track $index utilise sa position
+          dans la liste pour identifier l'élément.
+        -->
+
+        @for (commentaire of commentaires(); track $index) {
+
+          <p>{{ commentaire }}</p>
+
+        }
+
+      </div>
+
+
+      <!-- ====================================== -->
+      <!-- FIN DES AJOUTS POUR LES COMMENTAIRES  -->
+      <!-- ====================================== -->
+
+
+    } @else {
+
+      <!-- FILM INTROUVABLE -->
+
+      <div class="introuvable">
+
+        <h1>Film introuvable</h1>
+
+        <p>
+          Impossible d'afficher cette fiche.
+        </p>
+
+        <a routerLink="/">
+          Retour à l'accueil
+        </a>
+
+      </div>
+
+    }
+
+  }
+
+</main>

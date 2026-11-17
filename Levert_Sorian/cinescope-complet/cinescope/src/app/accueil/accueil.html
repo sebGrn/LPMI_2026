@@ -1,0 +1,227 @@
+<main class="page">
+
+  <!-- BARRE DE NAVIGATION -->
+
+  <header class="navbar">
+
+    <a routerLink="/" class="logo">
+      <span class="logo-icon">🎬</span>
+      Cine<span>Scope</span>
+    </a>
+
+    <nav class="navigation" aria-label="Navigation principale">
+      <a href="#accueil">Accueil</a>
+      <a href="#selections">Sélections</a>
+      <a href="#catalogue">Catalogue</a>
+    </nav>
+
+    <a href="#catalogue" class="nav-bouton">
+      Explorer <span aria-hidden="true">↗</span>
+    </a>
+
+  </header>
+
+
+  <!-- GRANDE BANNIERE CINEMA -->
+
+  @if (filmVedette; as film) {
+
+    <section class="hero" id="accueil">
+
+      <!-- Arrière-plan cinématographique -->
+
+      <img
+        class="hero-background"
+        [src]="film.affiche"
+        alt=""
+        aria-hidden="true"
+      />
+
+      <div class="hero-overlay"></div>
+
+      <!-- Texte de présentation -->
+
+      <div class="hero-content">
+
+        <div class="etiquette">
+          <span class="point-rouge"></span>
+          L'EXPÉRIENCE CINÉMA
+        </div>
+
+        <h1>
+          Le cinéma
+          <span>sans limites.</span>
+        </h1>
+
+        <p class="hero-description">
+          Plonge dans un univers où chaque film raconte
+          une histoire. Explore les classiques, découvre
+          les nouveautés et laisse-toi surprendre par
+          les plus grandes sensations du cinéma.
+        </p>
+
+        <div class="film-vedette">
+
+          <span class="vedette-label">À LA UNE</span>
+
+          <span class="vedette-titre">
+            {{ film.titre }}
+          </span>
+
+          <span class="vedette-annee">
+            {{ film.annee }}
+          </span>
+
+        </div>
+
+        <div class="hero-actions">
+
+          <a
+            class="bouton-principal"
+            [routerLink]="['/film', film.id]"
+          >
+            ▶ Découvrir le film
+          </a>
+
+          <a
+            class="bouton-secondaire"
+            href="#catalogue"
+          >
+            Explorer le catalogue
+            <span aria-hidden="true">↓</span>
+          </a>
+
+        </div>
+
+        <div class="statistiques">
+
+          <div>
+            <strong>{{ totalFilms }}+</strong>
+            <span>Films sélectionnés</span>
+          </div>
+
+          <div class="separateur"></div>
+
+          <div>
+            <strong>{{ totalHorreur }}</strong>
+            <span>Films d'horreur</span>
+          </div>
+
+          <div class="separateur"></div>
+
+          <div>
+            <strong>TMDB</strong>
+            <span>Catalogue étendu</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Affiche animée -->
+
+      <div class="hero-visual">
+
+        <div class="lueur"></div>
+
+        <div class="affiche-container">
+
+          <img
+            [src]="film.affiche"
+            [alt]="'Affiche de ' + film.titre"
+          />
+
+          <div class="affiche-reflet"></div>
+
+        </div>
+
+        <div class="badge-vedette">
+          <span>✦</span> SÉLECTION CINESCOPE
+        </div>
+
+      </div>
+
+      <div class="hero-bottom">
+        <span>SCROLL POUR EXPLORER</span>
+        <span aria-hidden="true">↓</span>
+      </div>
+
+    </section>
+
+  }
+
+  <!-- SELECTIONS CINESCOPE -->
+
+<section class="selections" id="selections">
+
+  <div class="intro-selections">
+    <p>LES SÉLECTIONS CINESCOPE</p>
+    <h2>À regarder ce soir.</h2>
+  </div>
+
+  
+  @if (filmsHorreur.length > 0) {
+    <app-carrousel-films
+      titre="🔪 Frissons & Horreur"
+      [films]="filmsHorreur"
+    ></app-carrousel-films>
+  }
+
+  @if (filmsScienceFiction.length > 0) {
+    <app-carrousel-films
+      titre="🚀 Science-fiction"
+      [films]="filmsScienceFiction"
+    ></app-carrousel-films>
+  }
+
+
+</section>
+
+
+  <!-- CATALOGUE EXISTANT -->
+
+  <section class="section-catalogue" id="catalogue">
+
+    <div class="section-header">
+
+      <div>
+        <p class="section-etiquette">
+          EXPLORE TON UNIVERS
+        </p>
+
+        <h2>
+          À l'affiche <span>sur CineScope.</span>
+        </h2>
+
+        <p class="section-description">
+          Des films cultes aux nouveautés,
+          trouve ta prochaine découverte.
+        </p>
+      </div>
+
+      <span class="catalogue-indicateur">
+        <span class="point-rouge"></span>
+        CATALOGUE CINÉMA
+      </span>
+
+    </div>
+
+    <app-catalogue></app-catalogue>
+
+  </section>
+
+
+  <!-- PIED DE PAGE -->
+
+  <footer class="footer">
+
+    <span>🎬 CineScope</span>
+
+    <p>
+      Projet universitaire · Angular + Python + TMDB
+    </p>
+
+  </footer>
+
+</main>

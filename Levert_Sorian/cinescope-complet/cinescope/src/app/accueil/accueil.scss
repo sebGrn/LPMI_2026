@@ -1,0 +1,941 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #09090f;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.page {
+  overflow: hidden;
+}
+
+// ================================
+// NAVIGATION
+// ================================
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+
+  padding: 25px 6%;
+  background: #0d0d15;
+
+  border-bottom: 1px solid #24242f;
+  position: relative;
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: white;
+  text-decoration: none;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1px;
+
+  span:not(.logo-icon) {
+    color: #e50914;
+  }
+}
+
+.logo-icon {
+  font-size: 28px;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+
+  a {
+    color: #adadba;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+.nav-bouton {
+  padding: 12px 22px;
+  border: 1px solid #55515b;
+  border-radius: 8px;
+
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+
+  transition: all 0.3s;
+
+  &:hover {
+    background: #e50914;
+    border-color: #e50914;
+  }
+}
+
+// ================================
+// GRANDE BANNIERE
+// ================================
+
+.hero {
+  position: relative;
+  min-height: 690px;
+
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: center;
+
+  gap: 40px;
+  padding: 80px 8% 110px;
+
+  isolation: isolate;
+  background: #101018;
+}
+
+.hero-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  filter: blur(65px) brightness(0.25);
+  opacity: 0.4;
+
+  z-index: -2;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at 80% 45%,
+      rgba(195, 10, 35, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(
+      90deg,
+      #101018 5%,
+      rgba(16, 16, 24, 0.85) 50%,
+      rgba(16, 16, 24, 0.45)
+    );
+
+  z-index: -1;
+}
+
+// ================================
+// TEXTE PRINCIPAL
+// ================================
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+
+  animation: apparitionTexte 0.9s ease both;
+}
+
+.etiquette {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  color: #ff5663;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 3px;
+
+  margin-bottom: 25px;
+}
+
+.point-rouge {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+  background: #e50914;
+
+  box-shadow: 0 0 15px rgba(229, 9, 20, 0.8);
+}
+
+h1 {
+  font-size: clamp(45px, 5.5vw, 85px);
+  line-height: 1.08;
+  letter-spacing: -3px;
+
+  margin: 0 0 25px;
+  font-weight: 900;
+
+  span {
+    display: block;
+    color: #e50914;
+  }
+}
+
+.hero-description {
+  color: #b6b6c3;
+  font-size: 17px;
+  line-height: 1.9;
+  max-width: 580px;
+  margin-bottom: 32px;
+}
+
+.film-vedette {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 13px;
+
+  margin-bottom: 30px;
+}
+
+.vedette-label {
+  padding: 7px 11px;
+  background: rgba(229, 9, 20, 0.16);
+
+  border: 1px solid rgba(229, 9, 20, 0.4);
+  border-radius: 5px;
+
+  color: #ff5663;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.vedette-titre {
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.vedette-annee {
+  color: #9999a8;
+}
+
+// ================================
+// BOUTONS
+// ================================
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.bouton-principal,
+.bouton-secondaire {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+  padding: 17px 25px;
+
+  border-radius: 9px;
+  font-weight: bold;
+  font-size: 14px;
+
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.bouton-principal {
+  background: #e50914;
+  color: white;
+
+  box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
+
+  &:hover {
+    background: #f51a27;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(229, 9, 20, 0.35);
+  }
+}
+
+.bouton-secondaire {
+  color: white;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-4px);
+  }
+}
+
+// ================================
+// STATISTIQUES
+// ================================
+
+.statistiques {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+  margin-top: 60px;
+
+  > div:not(.separateur) {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  strong {
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  span {
+    color: #9292a2;
+    font-size: 12px;
+  }
+}
+
+.separateur {
+  width: 1px;
+  height: 35px;
+  background: #373744;
+}
+
+// ================================
+// AFFICHE ANIMEE
+// ================================
+
+.hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 460px;
+  animation: apparitionAffiche 1s ease both;
+}
+
+.lueur {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+
+  background: rgba(210, 5, 35, 0.28);
+  filter: blur(85px);
+  border-radius: 50%;
+}
+
+.affiche-container {
+  position: relative;
+  width: min(100%, 310px);
+
+  border-radius: 15px;
+  overflow: hidden;
+
+  transform: rotate(4deg);
+  animation: flottement 6s ease-in-out infinite;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.8),
+    0 0 70px rgba(229, 9, 20, 0.2);
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+  }
+}
+
+.affiche-reflet {
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.17),
+    transparent 45%
+  );
+
+  pointer-events: none;
+}
+
+.badge-vedette {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+
+  background: #1d1d29;
+  border: 1px solid #454554;
+  border-radius: 8px;
+
+  padding: 13px 18px;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+
+  span {
+    color: #e50914;
+  }
+}
+
+.hero-bottom {
+  position: absolute;
+  bottom: 30px;
+  left: 8%;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  color: #858595;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+// ================================
+// CATALOGUE
+// ================================
+
+.section-catalogue {
+  position: relative;
+  padding: 90px 7% 110px;
+  background: #101018;
+  scroll-margin-top: 30px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.section-catalogue::before,
+.section-catalogue::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.22;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.section-catalogue::before {
+  width: 340px;
+  height: 340px;
+  top: 180px;
+  left: -80px;
+  background: rgba(229, 9, 20, 0.35);
+  animation: haloFlottant1 10s ease-in-out infinite;
+}
+
+.section-catalogue::after {
+  width: 420px;
+  height: 420px;
+  right: -120px;
+  top: 420px;
+  background: rgba(170, 25, 60, 0.22);
+  animation: haloFlottant2 14s ease-in-out infinite;
+}
+
+.section-header,
+app-catalogue {
+  position: relative;
+  z-index: 1;
+}
+
+.section-etiquette {
+  color: #e50914;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.section-description {
+  color: #9999a8;
+  line-height: 1.7;
+}
+
+.catalogue-indicateur {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+
+  color: #9999a8;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+// ================================
+// PIED DE PAGE
+// ================================
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  padding: 30px 7%;
+  border-top: 1px solid #30303b;
+
+  background: #0b0b12;
+  color: #9999a8;
+  font-size: 13px;
+
+  span {
+    color: #e50914;
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
+
+// ================================
+// ANIMATIONS
+// ================================
+
+@keyframes apparitionTexte {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes apparitionAffiche {
+  from {
+    opacity: 0;
+    transform: translateX(50px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes flottement {
+  0%, 100% {
+    transform: translateY(0) rotate(4deg);
+  }
+
+  50% {
+    transform: translateY(-17px) rotate(2deg);
+  }
+}
+
+// ================================
+// RESPONSIVE
+// ================================
+
+@media (max-width: 950px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 70px 7% 100px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-visual {
+    min-height: 380px;
+  }
+
+  .navigation {
+    display: none;
+  }
+
+  .section-header {
+    align-items: start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 20px 5%;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+
+  .nav-bouton {
+    padding: 10px 14px;
+  }
+
+  .hero {
+    padding: 60px 6% 90px;
+  }
+
+  h1 {
+    letter-spacing: -1px;
+  }
+
+  .hero-description {
+    font-size: 15px;
+  }
+
+  .statistiques {
+    gap: 16px;
+  }
+
+  .statistiques strong {
+    font-size: 20px;
+  }
+
+  .separateur {
+    display: none;
+  }
+
+  .hero-visual {
+    min-height: 350px;
+  }
+
+  .affiche-container {
+    width: 220px;
+  }
+
+  .badge-vedette {
+    right: 5%;
+  }
+
+  .section-catalogue {
+    padding: 65px 5%;
+  }
+
+  .footer {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-content,
+  .hero-visual,
+  .affiche-container {
+    animation: none;
+  }
+
+  .bouton-principal,
+  .bouton-secondaire {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+@keyframes haloFlottant1 {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-30px) translateX(20px) scale(1.08);
+  }
+}
+
+@keyframes haloFlottant2 {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(25px) translateX(-25px) scale(1.06);
+  }
+}
+
+
+/* =======================================
+   CINESCOPE - AMBIANCE CINEMATOGRAPHIQUE
+   ======================================= */
+
+.section-catalogue {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse 500px 700px at 0% 20%,
+      rgba(200, 15, 50, 0.25),
+      transparent 80%
+    ),
+    radial-gradient(
+      ellipse 550px 750px at 100% 70%,
+      rgba(150, 15, 70, 0.24),
+      transparent 80%
+    ),
+    #101018;
+}
+
+/* Braises rouges et particules lumineuses */
+
+.section-catalogue::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+
+  width: auto;
+  height: auto;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 65, 85, 0.95) 0 2px,
+      rgba(255, 65, 85, 0.3) 4px,
+      transparent 10px
+    ) 0 0 / 230px 320px,
+
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.75) 0 1px,
+      transparent 5px
+    ) 80px 90px / 310px 260px,
+
+    radial-gradient(
+      circle,
+      rgba(255, 25, 45, 0.85) 0 2px,
+      transparent 9px
+    ) 160px 140px / 400px 370px;
+
+  background-repeat: repeat;
+
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+
+  animation: braisesCinema 14s ease-in-out infinite alternate;
+}
+
+/* Brume rouge mouvante */
+
+.section-catalogue::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  width: auto;
+  height: auto;
+
+  background:
+    radial-gradient(
+      ellipse 35% 20% at 15% 35%,
+      rgba(225, 10, 40, 0.23),
+      transparent 85%
+    ),
+    radial-gradient(
+      ellipse 38% 25% at 85% 65%,
+      rgba(155, 15, 80, 0.23),
+      transparent 85%
+    );
+
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+
+  animation: brumeCinema 12s ease-in-out infinite alternate;
+}
+
+/* Les films restent devant les effets */
+
+.section-header,
+app-catalogue {
+  position: relative;
+  z-index: 1;
+}
+
+app-catalogue {
+  display: block;
+}
+
+/* Animations */
+
+@keyframes braisesCinema {
+  from {
+    transform: translate(0, 0);
+  }
+
+  to {
+    transform: translate(25px, -35px);
+  }
+}
+
+@keyframes brumeCinema {
+  from {
+    opacity: 0.5;
+    transform: translateX(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(15px);
+  }
+}
+
+/* Accessibilité */
+
+@media (prefers-reduced-motion: reduce) {
+  .section-catalogue::before,
+  .section-catalogue::after {
+    animation: none;
+  }
+}
+
+/* Canvas : désactiver les anciennes particules CSS */
+
+.page {
+  overflow: clip;
+}
+
+.section-catalogue {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.section-catalogue::before,
+.section-catalogue::after {
+  content: none;
+  animation: none;
+}
+
+.section-header,
+app-catalogue {
+  position: relative;
+  z-index: 1;
+}
+
+app-catalogue {
+  display: block;
+}
+
+/* ================================
+   AMBIANCE LEGERE DU CATALOGUE
+   ================================ */
+
+.section-catalogue {
+  background:
+    radial-gradient(
+      ellipse at 10% 20%,
+      rgba(150, 10, 35, 0.12),
+      transparent 45%
+    ),
+    radial-gradient(
+      ellipse at 90% 70%,
+      rgba(120, 10, 60, 0.10),
+      transparent 45%
+    ),
+    #101018;
+}
+
+/* Une seule lueur animée */
+
+.section-catalogue::before {
+  content: "";
+
+  position: absolute;
+  inset: auto;
+  top: 180px;
+  left: -120px;
+
+  width: 320px;
+  height: 320px;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.18),
+    transparent 70%
+  );
+
+  filter: none;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+
+  animation: lueurDouce 16s ease-in-out infinite alternate;
+}
+
+.section-catalogue::after {
+  content: none;
+  animation: none;
+}
+
+@keyframes lueurDouce {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(30px, -20px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-catalogue::before {
+    animation: none;
+  }
+}
+
+/* =========================
+   SELECTIONS DE FILMS
+   ========================= */
+
+.selections {
+  position: relative;
+  z-index: 1;
+
+  padding: 75px 7% 30px;
+
+  background: linear-gradient(
+    180deg,
+    #0d0d15,
+    #14111a
+  );
+}
+
+.intro-selections {
+  margin-bottom: 45px;
+
+  p {
+    color: #e50914;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 3px;
+  }
+
+  h2 {
+    color: white;
+    font-size: clamp(30px, 4vw, 43px);
+    margin: 12px 0 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .selections {
+    padding: 55px 5% 20px;
+  }
+}

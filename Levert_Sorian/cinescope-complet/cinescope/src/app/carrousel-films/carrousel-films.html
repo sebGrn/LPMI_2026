@@ -1,0 +1,62 @@
+
+<section class="carrousel">
+
+  <div class="entete">
+
+    <h2>{{ titre }}</h2>
+
+    <div class="controles">
+
+      <button
+        type="button"
+        aria-label="Défiler vers la gauche"
+        (click)="defiler(-1)"
+      >
+        ‹
+      </button>
+
+      <button
+        type="button"
+        aria-label="Défiler vers la droite"
+        (click)="defiler(1)"
+      >
+        ›
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="piste" #piste>
+
+    @for (film of films; track film.id) {
+
+      <a
+        class="carte"
+        [routerLink]="['/film', film.id]"
+      >
+
+        <div class="affiche">
+          <img
+            [src]="film.affiche"
+            [alt]="'Affiche de ' + film.titre"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        <div class="informations">
+
+          <h3>{{ film.titre }}</h3>
+
+          <p>{{ film.annee }} · {{ film.genre }}</p>
+
+        </div>
+
+      </a>
+
+    }
+
+  </div>
+
+</section>
