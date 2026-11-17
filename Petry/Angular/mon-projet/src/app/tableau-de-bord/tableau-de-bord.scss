@@ -1,0 +1,60 @@
+:host { display: block; color: #182c3a; }
+.dashboard { min-height: 100dvh; background: #f5f7f9; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px max(5vw, 20px); background: #fff; border-bottom: 1px solid #e3e9ee; }
+.brand { display: flex; align-items: center; gap: 10px; color: #182c3a; text-decoration: none; font-size: 21px; font-weight: 750; letter-spacing: -.6px; }
+.brand-icon { padding: 4px 11px; border-radius: 10px; background: #123f45; color: #a4f3d5; }
+.source, footer { color: #61737f; font-size: 12px; }
+main { max-width: 1200px; padding: 48px 28px 24px; margin: auto; }
+.intro { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #367570; }
+h1 { font-size: clamp(30px, 4vw, 44px); letter-spacing: -1.8px; margin: 12px 0; line-height: 1.1; }
+.intro p:last-child, .market-heading p { color: #61737f; font-size: 14px; }
+.connection { display: flex; align-items: center; gap: 8px; border: 1px solid #dfe6e9; border-radius: 24px; padding: 10px 14px; background: white; font-size: 12px; white-space: nowrap; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: #b77916; }
+.dot.live { background: #168365; box-shadow: 0 0 0 4px #e3f5ee; }
+.notice { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 16px; border: 1px solid #eadbb9; border-radius: 12px; background: #fffbf2; color: #785a21; font-size: 13px; margin-bottom: 24px; }
+.overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.coin-card, .empty-card { background: white; border: 1px solid #e2e8ec; border-radius: 16px; padding: 24px; }
+.empty-card { grid-column: 1 / -1; padding: 36px; color: #61737f; text-align: center; }
+.empty-card p { font-size: 14px; }
+.card-heading { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
+.card-heading small { display: block; color: #61737f; font-size: 10px; margin-top: 2px; }
+.coin-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #fff2e1; color: #a75a00; }
+.coin-icon[data-symbol=ETH] { background: #e8edff; color: #4966a5; }
+.coin-icon[data-symbol=SOL] { background: #efe9fa; color: #7842a4; }
+.coin-icon[data-symbol=ADA] { background: #e2f3fa; color: #257299; }
+.price { display: block; font-size: 26px; font-weight: 650; letter-spacing: -.9px; margin: 24px 0 10px; font-variant-numeric: tabular-nums; }
+.change { font-size: 12px; font-weight: 600; }
+.positive { color: #137657; }
+.negative { color: #b2384b; }
+.period { color: #61737f; font-size: 11px; }
+.market { overflow: hidden; border: 1px solid #e2e8ec; border-radius: 16px; background: white; }
+.market-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px; }
+h2 { font-size: 18px; margin: 0 0 6px; letter-spacing: -.4px; }
+.market-heading p { margin: 0; font-size: 12px; }
+mat-form-field { width: 260px; }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; min-width: 820px; background: white; }
+th { background: #f9fbfc !important; color: #61737f; font-size: 11px; }
+td { font-size: 13px; font-variant-numeric: tabular-nums; height: 72px; }
+.numeric { font-weight: 650; }
+.symbol { display: block; color: #61737f; font-size: 10px; margin-top: 4px; }
+.no-data { text-align: center; color: #61737f; padding: 24px; }
+footer { margin: 24px 0 0; text-align: center; line-height: 1.6; }
+@media (max-width: 650px) {
+  header { flex-wrap: wrap; }
+  main { padding: 32px 16px 20px; }
+  .intro, .market-heading { align-items: flex-start; flex-direction: column; }
+  .intro { gap: 12px; }
+  .overview { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .coin-card { padding: 16px; }
+  .price { display: block; font-size: 21px; }
+  mat-form-field { width: 100%; }
+  .notice { align-items: flex-start; }
+}
+
+.coin-card { display: block; width: 100%; text-align: left; color: inherit; font: inherit; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+.coin-card:hover { border-color: #6c9f96; box-shadow: 0 4px 16px #123f450d; }
+.coin-card:focus-visible { outline: 3px solid #137d70; outline-offset: 3px; }
+.chart-link { display: block; margin-top: 16px; font-size: 11px; font-weight: 600; color: #27756c; }
+.asset-link { margin-left: -12px; font-weight: 650; }

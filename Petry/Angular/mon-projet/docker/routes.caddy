@@ -1,0 +1,19 @@
+(tracker) {
+	encode zstd gzip
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	@backend path /api/* /ws/*
+	handle @backend {
+		# Caddy proxies WebSockets and long Ollama requests automatically.
+		# Keep the URI and the browser's Origin unchanged for FastAPI validation.
+		reverse_proxy api:8000
+	}
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		header Cache-Control "no-cache"
+		file_server
+	}
+}

@@ -1,0 +1,16 @@
+{
+	admin off
+}
+import /etc/caddy/routes.caddy
+# Private container health check; port 8080 is not published in production.
+:8080 {
+	respond /healthz "ok" 200
+	respond "Not found" 404
+}
+{$SITE_DOMAIN} {
+	# Domain ownership and open ports 80/443 let Caddy obtain HTTPS certificates.
+	basic_auth {
+		{$BASIC_AUTH_USER} {$BASIC_AUTH_HASH}
+	}
+	import tracker
+}

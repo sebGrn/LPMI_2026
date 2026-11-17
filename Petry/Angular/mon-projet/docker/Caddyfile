@@ -1,0 +1,10 @@
+{
+	admin off
+}
+import /etc/caddy/routes.caddy
+:8080 {
+	handle /healthz {
+		respond "ok" 200
+	}
+	import tracker
+}
