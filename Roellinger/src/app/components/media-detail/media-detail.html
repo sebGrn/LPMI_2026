@@ -1,0 +1,24 @@
+<div class="detail-container">
+  <a routerLink="/" class="back-btn">⬅ Retour à l'accueil</a>
+
+  <p class="detail-state" *ngIf="isLoading" role="status">Chargement des détails...</p>
+
+  <div class="detail-state" *ngIf="errorMessage" role="alert">
+    <p>{{ errorMessage }}</p>
+    <button type="button" (click)="loadDetails()" *ngIf="canRetry">Réessayer</button>
+  </div>
+
+  <div class="detail-content" *ngIf="media as item">
+    <img *ngIf="item.poster_path; else noPoster" [src]="getImageUrl(item.poster_path)" [alt]="item.title || item.name" />
+    <ng-template #noPoster>
+      <div class="poster-placeholder" role="img" aria-label="Affiche indisponible">Affiche indisponible</div>
+    </ng-template>
+    <div class="info">
+      <h2>{{ item.title || item.name }}</h2>
+      <p class="date">Date de sortie : {{ item.release_date || item.first_air_date || 'Non renseignée' }}</p>
+      <p class="rating">Note : ⭐ {{ item.vote_average | number:'1.1-1' }} / 10</p>
+      <h3>Synopsis</h3>
+      <p class="overview">{{ item.overview || 'Aucun synopsis disponible.' }}</p>
+    </div>
+  </div>
+</div>

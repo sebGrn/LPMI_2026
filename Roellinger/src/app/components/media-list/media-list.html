@@ -1,0 +1,22 @@
+<div class="container">
+  <header class="header">
+    <h1>🎬 Catalogue Films & Séries</h1>
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Rechercher un film ou une série..." />
+    </div>
+    <div class="filters">
+      <button [class.active]="activeFilter === 'movies'" (click)="loadMovies()">Films Populaires</button>
+      <button [class.active]="activeFilter === 'series'" (click)="loadSeries()">Séries Populaires</button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="card" *ngFor="let item of medias" [routerLink]="['/media', item.media_type || 'movie', item.id]">
+      <img [src]="getImageUrl(item.poster_path)" [alt]="item.title || item.name" />
+      <div class="card-info">
+        <h3>{{ item.title || item.name }}</h3>
+        <p class="rating">⭐ {{ item.vote_average | number:'1.1-1' }} / 10</p>
+      </div>
+    </div>
+  </div>
+</div>

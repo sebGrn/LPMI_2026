@@ -1,0 +1,35 @@
+.detail-state {
+	margin-top: 2rem;
+	text-align: center;
+}
+
+.detail-state button {
+	padding: 0.65rem 1rem;
+	border: 0;
+	border-radius: 6px;
+	background: #e50914;
+	color: #fff;
+	cursor: pointer;
+}
+
+.poster-placeholder {
+	display: grid;
+	width: 300px;
+	min-height: 420px;
+	place-items: center;
+	border-radius: 10px;
+	background: #252525;
+	color: #bbb;
+	text-align: center;
+}
+
+@media (max-width: 640px) {
+	.detail-content {
+		flex-direction: column;
+	}
+
+	.detail-content img,
+	.poster-placeholder {
+		width: min(100%, 300px);
+	}
+}
